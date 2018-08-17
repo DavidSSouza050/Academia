@@ -17,6 +17,22 @@ public class Cliente {
 	private double tmb;
 	private double fcm;
 	
+	
+	//** METODO CONSTRUTOR DA CLASSE 
+	public Cliente(String nome) {
+		this.nome = nome;
+	}
+	//** METODO CONSTRUTOR DA CLASSE 
+	public Cliente(String nome, double peso, double altura) {
+		this.nome = nome;
+		this.peso = peso;
+		this.altura = altura;
+	}
+	//** METODO CONSTRUTOR DA CLASSE 
+	public Cliente() {
+		
+	}
+	
 	//** NOME
 	public String getNome() {
 		return nome;
@@ -184,11 +200,13 @@ public class Cliente {
 		return tmb;
 	}
 
-	//**FCM
+	//**FCM 
 	public double getFcm() {
 		
 		if (this.sexo == 'H') {
-			//this.fcm = ((210 – (0.5 * this.idade)) – this.peso * 1 / 100 ) + 4 ;
+			this.fcm = ((210 - (0.5 * this.idade)) - this.peso * 1 / 100) + 4;
+		}else {
+			this.fcm = ((210 - (0.5 * this.idade)) - this.peso * 1 / 100);
 		}
 		
 		return fcm;
