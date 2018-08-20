@@ -42,6 +42,7 @@ public class FrmCliente extends JFrame{
 	private Color preto = new Color ( 0, 0, 0);
 	private Font minhaFonte = new Font("Arial", 1 , 20);
 	private ImageIcon iconeTitulo;
+	private ImageIcon iconeCalc;
 	
 	private JButton btCalcular;
 	
@@ -132,7 +133,10 @@ public class FrmCliente extends JFrame{
 		cdAtividade.setBounds(10, 300, 180, 30);
 		
 		btCalcular = new JButton("Calcular");
-		btCalcular.setBounds(10, 320, 180, 30);
+		btCalcular.setBounds(25, 350, 140, 40);
+		iconeCalc = new ImageIcon(FrmCliente.class.getResource("/br/senai/sp/cfp127/imagens/calc24.png"));
+		btCalcular.setIcon(iconeCalc);
+
 
 
 		
