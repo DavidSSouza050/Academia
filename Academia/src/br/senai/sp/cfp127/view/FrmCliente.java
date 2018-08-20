@@ -49,6 +49,7 @@ public class FrmCliente extends JFrame{
 	public FrmCliente() {
 		
 		setTitle("Cadastro de Cliente");
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setSize(600, 600);
 		setResizable(false);
 		setLayout(null);
