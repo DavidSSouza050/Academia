@@ -10,6 +10,8 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
 import br.senai.sp.cfp127.cliente.Cliente;
+import java.awt.TextArea;
+import java.awt.Toolkit;
 
 public class FrmCliente extends JFrame{
 	
@@ -42,7 +44,7 @@ public class FrmCliente extends JFrame{
 				   lblNivelAtivR,
 				   lblNivelAtivRl,
 				   lblImc,
-				   lblImcL,
+				  // lblImcL,
 				   lblTmb,
 				   lblTmbL,
 				   lblFcm,
@@ -53,6 +55,7 @@ public class FrmCliente extends JFrame{
 					   txtPeso,
 					   txtAltura,
 					   txtIdade;
+	
 	// Declaração Dos Rádios
 	private JRadioButton rdFeminino,
 						 rdMasculino;
@@ -67,14 +70,17 @@ public class FrmCliente extends JFrame{
 	private ImageIcon iconeCalc;
 	
 	private JButton btCalcular;
+	private JScrollPane scroll;
+	private JTextArea txtImcA;
 	
 	public FrmCliente() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(FrmCliente.class.getResource("/br/senai/sp/cfp127/imagens/gym32.png")));
 		
 		setTitle("Cadastro de Cliente");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setSize(600, 600);
 		setResizable(false);
-		setLayout(null);
+		getContentPane().setLayout(null);
 		
 
 		//** LABEL Titulo
@@ -99,6 +105,7 @@ public class FrmCliente extends JFrame{
 		
 		// Painel de dados
 		painelDados = new JPanel();
+		painelDados.setBackground(Color.WHITE);
 		painelDados.setLayout(null); 
 		painelDados.setBounds(10, 60, 285, 500);
 		bordaDados = new TitledBorder("Dados do Cliente:");
@@ -107,57 +114,55 @@ public class FrmCliente extends JFrame{
 		
 		//**Nome
 		lblNome = new JLabel("Nome:");
-		lblNome.setBounds(10, 30, 100, 20);
+		lblNome.setBounds(15, 40, 100, 20);
 		
 		txtNome = new JTextField();
-		txtNome.setBounds(60, 30, 200, 30);
-		
-		//** Sexo
-		lblSexo = new JLabel("Sexo:");
-		lblSexo.setBounds(10 , 60, 200 , 30);
+		txtNome.setBounds(60, 35, 190, 30);
 		
 		//** grupoRadio junto do sexo
 		ButtonGroup grupoRadio = new ButtonGroup();
 		
 		rdFeminino = new JRadioButton("Feminino");
-		rdFeminino.setBounds(60 , 60, 90 ,30);
+		rdFeminino.setBackground(Color.WHITE);
+		rdFeminino.setBounds(60 , 80, 90 ,30);
 		
 		rdMasculino = new JRadioButton("Masculino");
-		rdMasculino.setBounds(150, 60, 100 ,30);
+		rdMasculino.setBackground(Color.WHITE);
+		rdMasculino.setBounds(150, 80, 100 ,30);
 		grupoRadio.add(rdFeminino);
 		grupoRadio.add(rdMasculino);
 		
 		//** Peso 
 		lblPeso = new JLabel("Peso:");
-		lblPeso.setBounds(10, 96, 40, 28);
+		lblPeso.setBounds(10, 120, 40, 28);
 		
 		txtPeso = new JTextField();
-		txtPeso.setBounds(61, 98, 60, 25);
+		txtPeso.setBounds(61, 120, 60, 25);
 		
 		lblQuilos = new JLabel("Quilos");
-		lblQuilos.setBounds(130, 96, 60, 28);
+		lblQuilos.setBounds(130, 120, 60, 28);
 		
 
 	
 		//** Altura
 		lblAltura = new JLabel("Altura:");
-		lblAltura.setBounds(10, 125, 80, 30);
+		lblAltura.setBounds(10, 155, 80, 30);
 		
 		txtAltura = new JTextField();
-		txtAltura.setBounds(61, 130, 60, 25);
+		txtAltura.setBounds(61, 155, 60, 25);
 		
 		lblCm = new JLabel("cm");
-		lblCm.setBounds(130, 130, 60, 25);
+		lblCm.setBounds(130, 155, 60, 25);
 		
 		//** Idade
 		lblIdade = new JLabel("Idade:");
-		lblIdade.setBounds(10, 160, 40, 20);
+		lblIdade.setBounds(10, 190, 40, 20);
 		
 		txtIdade = new JTextField();
-		txtIdade.setBounds(61, 160, 60, 24);
+		txtIdade.setBounds(61, 190, 60, 24);
 		
 		lblAnos = new JLabel("Anos");
-		lblAnos.setBounds(130, 160, 60, 24);
+		lblAnos.setBounds(130, 190, 60, 24);
 
 		
 			
@@ -166,16 +171,16 @@ public class FrmCliente extends JFrame{
 		//Nivel de atividade
 		
 		lblNivelAtiv = new JLabel("Nivel de Atividade:");
-		lblNivelAtiv.setBounds(10, 220, 105, 20);
+		lblNivelAtiv.setBounds(15, 280, 105, 20);
 		
 		String[] nivelAtividade = {"Sedentário","Levemente Ativo","Moderadamente ativo", "Bastante ativo", "Muito ativo" };
 		System.out.println(nivelAtividade[4]);
 		
 		cdAtividade = new JComboBox(nivelAtividade);
-		cdAtividade.setBounds(10, 250, 180, 30);
+		cdAtividade.setBounds(30, 311, 200, 30);
 		
 		btCalcular = new JButton("Calcular");
-		btCalcular.setBounds(25, 300, 140, 40);
+		btCalcular.setBounds(60, 379, 140, 40);
 		iconeCalc = new ImageIcon(FrmCliente.class.getResource("/br/senai/sp/cfp127/imagens/calc24.png"));
 		btCalcular.setIcon(iconeCalc);
 
@@ -184,7 +189,6 @@ public class FrmCliente extends JFrame{
 		
 		painelDados.add(lblNome);
 		painelDados.add(txtNome);
-		painelDados.add(lblSexo);
 		painelDados.add(rdFeminino);
 		painelDados.add(rdMasculino);
 		painelDados.add(lblPeso);
@@ -204,76 +208,74 @@ public class FrmCliente extends JFrame{
 
 		//** Painel de resultado
 		painelResultado = new JPanel();
+		painelResultado.setBackground(Color.WHITE);
 		painelResultado.setLayout(null); 
-		painelResultado.setBounds(300, 60, 285, 500);
+		painelResultado.setBounds(299, 61, 285, 500);
 		bordaResultado = new TitledBorder("Resultados do Cliente:");
 		bordaResultado.setTitleColor(preto);
 		painelResultado.setBorder(bordaResultado);
 		
 		//Nome
 		lblNomeR = new JLabel("Nome:");
-		lblNomeR.setBounds(50, 30, 85, 20);
+		lblNomeR.setBounds(32, 40, 45, 20);
 		
-		lblNomeRl = new JLabel("Maria");
-		lblNomeRl.setBounds(96, 30, 200, 20);
+		lblNomeRl = new JLabel("");
+		lblNomeRl.setBounds(79, 40, 178, 20);
 
 		
 		//**	Idade
 		lblIdadeR = new JLabel("Idade:");
-		lblIdadeR.setBounds(50, 60, 85, 20);
+		lblIdadeR.setBounds(32, 83, 45, 20);
 		
-		lblIdadeRl = new JLabel("54" + " anos");
-		lblIdadeRl.setBounds(96, 60, 100, 20);
+		lblIdadeRl = new JLabel("");
+		lblIdadeRl.setBounds(79, 83, 91, 20);
 		
 		//Altura
 		
 		lblAlturaR = new JLabel ("Altura:");
-		lblAlturaR.setBounds(50, 90, 85, 20);
+		lblAlturaR.setBounds(32, 114, 47, 20);
 		
-		lblAlturaRl = new JLabel ("150" + " cm");
-		lblAlturaRl.setBounds(96, 90, 100, 20);
+		lblAlturaRl = new JLabel ("");
+		lblAlturaRl.setBounds(80, 114, 90, 20);
 		
 		
 		// Peso
 		
 		lblPesoR = new JLabel ("Peso:");
-		lblPesoR.setBounds(50, 120, 85, 20);
+		lblPesoR.setBounds(32, 145, 47, 20);
 		
-		lblPesoRl = new JLabel ("64" + " Quilos");
-		lblPesoRl.setBounds(96, 120, 100, 20);
+		lblPesoRl = new JLabel ("");
+		lblPesoRl.setBounds(66, 145, 91, 20);
 		
 		//Nível de ativida 
 		
 		lblNivelAtivR = new JLabel("Nível de atividade:", JLabel.RIGHT);
-		lblNivelAtivR.setBounds(15, 150, 110, 20);
+		lblNivelAtivR.setBounds(10, 190, 110, 20);
 		
-		lblNivelAtivRl = new JLabel("Sedentario", JLabel.LEFT);
-		lblNivelAtivRl.setBounds(130, 150, 115, 20);
+		lblNivelAtivRl = new JLabel("", JLabel.LEFT);
+		lblNivelAtivRl.setBounds(131, 190, 115, 20);
 		
 		//* Imc
 		lblImc = new JLabel("IMC:", JLabel.RIGHT);
-		lblImc.setBounds(15, 180, 65, 20);
-		
-		lblImcL = new JLabel("29,8" + " Kg/m²", JLabel.LEFT);
-		lblImcL.setBounds(99, 180, 85, 20);
+		lblImc.setBounds(10, 236, 47, 20);
 		
 		
 		
 		//** TMB
 		
 		lblTmb = new JLabel("TMB:", JLabel.RIGHT); 
-		lblTmb.setBounds(15, 250, 65, 20);
+		lblTmb.setBounds(30, 340, 47, 20);
 		
-		lblTmbL = new JLabel("1555", JLabel.LEFT);
-		lblTmbL.setBounds(99, 250, 85, 20);
+		lblTmbL = new JLabel("", JLabel.LEFT);
+		lblTmbL.setBounds(87, 340, 132, 20);
 		
 		
 		//** FCM
 		lblFcm = new JLabel("FCM:", JLabel.RIGHT); 
-		lblFcm.setBounds(15, 280, 65, 20);
+		lblFcm.setBounds(32, 383, 47, 20);
 		
-		lblFcmL = new JLabel("25104", JLabel.LEFT);
-		lblFcmL.setBounds(99, 280, 85, 20);
+		lblFcmL = new JLabel("", JLabel.LEFT);
+		lblFcmL.setBounds(85, 383, 110, 20);
 		
 		painelResultado.add(lblNomeR);
 		painelResultado.add(lblNomeRl);
@@ -286,7 +288,6 @@ public class FrmCliente extends JFrame{
 		painelResultado.add(lblNivelAtivR);
 		painelResultado.add(lblNivelAtivRl);
 		painelResultado.add(lblImc);
-		painelResultado.add(lblImcL);
 		painelResultado.add(lblTmb);
 		painelResultado.add(lblTmbL);
 		painelResultado.add(lblFcm);
@@ -294,7 +295,22 @@ public class FrmCliente extends JFrame{
 		
 		getContentPane().add(painelTitulo);
 		getContentPane().add(painelDados);
+		
+		//** Sexo
+		lblSexo = new JLabel("Sexo:");
+		lblSexo.setBounds(15, 80, 45, 30);
+		painelDados.add(lblSexo);
 		getContentPane().add(painelResultado);
+		
+		scroll = new JScrollPane();
+		scroll.setBounds(69, 233, 206, 83);
+		painelResultado.add(scroll);
+		
+		txtImcA = new JTextArea();
+		txtImcA.setWrapStyleWord(true);
+		txtImcA.setLineWrap(true);
+		txtImcA.setEditable(false);
+		scroll.setViewportView(txtImcA);
 		
 		btCalcular.addActionListener(new ActionListener() {
 			
@@ -321,7 +337,7 @@ public class FrmCliente extends JFrame{
 				lblIdadeRl.setText(String.valueOf(cliente.getIdade()));
 				lblNomeRl.setText(cliente.getNome());
 				lblNivelAtivRl.setText(String.valueOf(cdAtividade.getSelectedIndex() + 1 ));
-				lblImcL.setText(cliente.getImc());
+				txtImcA.setText(cliente.getImc());
 				lblTmbL.setText(String.valueOf(cliente.getTmb()));
 				lblFcmL.setText(String.valueOf(cliente.getFcm()));
 			}
