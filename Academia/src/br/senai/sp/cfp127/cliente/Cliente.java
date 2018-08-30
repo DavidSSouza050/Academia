@@ -8,11 +8,15 @@ public class Cliente {
 	private double altura;
 	private char sexo;
 	private int nivelAtividade;
+	
+	
 	private String logradouro;
 	private String bairro;
 	private String cidade;
 	private String telefone;
 	private String email;
+	
+	//Atributos derivados
 	private String imc;
 	private double tmb;
 	private double fcm;
@@ -143,20 +147,20 @@ public class Cliente {
 		if (imc < 16.6) {
 			this.imc = "Seu imc é " + imc + 
 					". Você está muito abaixo do peso!\n" +
-					"Riscos de Queda de cabelo, infertilidade, " + 
+					"Riscos de Queda de cabelo, infertilidade," + 
 					"ausência menstrual.";
 		}else if (imc < 18.5) {
 			this.imc = "Seu imc é " + imc + 
 					". Você está Abaixo do peso!\n" +
-					"Riscos de Fadiga, stress e ansiedade. ";
+					"Riscos de Fadiga, stress e ansiedade.";
 		}else if (imc < 25.0) {
 			this.imc = "Seu imc é " + imc + 
 					". Você está no Peso normal! \n" +
-					"Menor risco de doenças cardíacas e vasculares .";
+					"Menor risco de doenças cardíacas e vasculares.";
 		}else if (imc < 30.0) {
 			this.imc = "Seu imc é " + imc + 
 					". Você está Acima do peso! \n" +
-					"Riscos de Fadiga, má circulação, varizes .";
+					"Riscos de Fadiga, má circulação, varizes.";
 		}else if (imc < 34.9) {
 			this.imc = "Seu imc é " + imc + 
 					". Obesidade Grau I ! \n" +
