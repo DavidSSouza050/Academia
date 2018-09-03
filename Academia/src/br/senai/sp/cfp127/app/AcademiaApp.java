@@ -6,6 +6,7 @@ import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import br.senai.sp.cfp127.view.FrmCliente;
+import br.senai.sp.cfp127.view.FrmFuncionario;
 
 public class AcademiaApp {
 
@@ -34,7 +35,11 @@ public class AcademiaApp {
 		
 
 		
-		FrmCliente janela = new FrmCliente();
+		//FrmCliente janela = new FrmCliente();
+		
+		FrmFuncionario Funcionario = new FrmFuncionario();
+		Funcionario.setVisible(true);
+		
 	}
 
 }
