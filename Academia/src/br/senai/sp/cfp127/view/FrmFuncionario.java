@@ -6,6 +6,10 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import br.senai.sp.cfp127.dbutils.Conexao;
+import br.senai.sp.cfp127.modelo.Funcionario;
+
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -110,10 +114,7 @@ public class FrmFuncionario extends JFrame {
 		contentPane.add(btnBuscar);
 		
 		JButton btnNovo = new JButton("Novo");
-		btnNovo.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
+	
 		btnNovo.setBounds(191, 59, 89, 29);
 		
 		//**** LISTENERS DOS BOTÕES
@@ -121,14 +122,37 @@ public class FrmFuncionario extends JFrame {
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
+				Funcionario funcionario = new Funcionario();
+				funcionario.setNome(txtNome.getText());
+				funcionario.setCidade(txtCidade.getText());
+				funcionario.setUf(txtUf.getText());
+				funcionario.setEmail(txtEmail.getText());
+				
+				
 				try {
 					Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
 					Connection con = DriverManager.getConnection("jdbc:ucanaccess://Z://SegundoTermo//Git/Academia.accdb");
-					} catch(Exception erro) {
-						erro.getMessage();
+					
+					String sql ="INSERT INTO funcionario (nome, email, cidade, uf) "
+							+ "VALUES (?, ?, ?, ?)";
+				
+					PreparedStatement stm =  con.prepareStatement(sql);
+					stm.setString(1, txtNome.getText());
+					stm.setString(2, txtEmail.getText());
+					stm.setString(3, txtCidade.getText());
+					stm.setString(4, txtUf.getText());
+					
+					if (!stm.execute()) {
+						JOptionPane.showMessageDialog(null, "Registro Gravado com Sucesso! ");
+						limparCampos();
+					}else {
+						JOptionPane.showMessageDialog(null, "Ocorreu um erro na Gravação!");
 					}
-				
-				
+					
+				} catch(Exception erro) {
+						erro.getMessage();
+				}
+
 			}
 		});
 		
@@ -136,12 +160,10 @@ public class FrmFuncionario extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				try {
-					Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
-					Connection con = DriverManager.getConnection("jdbc:ucanaccess://Z://SegundoTermo//Git/Academia.accdb");
 					
 					String consulta ="SELECT * FROM funcionario WHERE id = ?";
 				
-					PreparedStatement stm =  con.prepareStatement(consulta);
+					PreparedStatement stm =  Conexao.getConexao().prepareStatement(consulta);
 					stm.setInt(1, Integer.parseInt(txtId.getText()));
 					
 					ResultSet rs ;
@@ -154,20 +176,37 @@ public class FrmFuncionario extends JFrame {
 					txtCidade.setText(rs.getString("cidade"));
 					txtUf.setText(rs.getString("uf"));
 				} else {
-					txtNome.setText("");
-					txtEmail.setText("");
-					txtCidade.setText("");
-					txtUf.setText("");
+					limparCampos();
 					JOptionPane.showMessageDialog(null,"Registro não encontrado");
 				}
 					
-					} catch(Exception erro) {
+				} catch(Exception erro) {
 						erro.getMessage();
 					}
 				
 			}
 		});
 		
+		btnNovo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				limparCampos();
+				txtNome.requestFocus();
+			}
+		});
+		
+		
+		
 		contentPane.add(btnNovo);
 	}
+	
+	private void limparCampos() {
+		txtNome.setText("");
+		txtEmail.setText("");
+		txtCidade.setText("");
+		txtUf.setText("");
+		txtId.setText("");
+	}
+
+	
+	
 }

@@ -1,25 +1,14 @@
 package br.senai.sp.cfp127.modelo;
 
 public class Funcionario extends Pessoa {
-
-	private String cargo;
-	private double salario;
-
+	private int id;
 	
-	public String getCargo() {
-		return cargo;
+	public int getId() {
+		return id;
 	}
-
-	public void setCargo(String cargo) {
-		this.cargo = cargo;
+	
+	public void setId(int id) {
+		this.id = id;
 	}
-
-	public double getSalario() {
-		return salario;
-	}
-
-	public void setSalario(double salario) {
-		this.salario = salario;
-	}
-
+	
 }

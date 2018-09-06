@@ -8,6 +8,26 @@ public class Pessoa {
 	private String telefone;
 	private String email;
 	private String endereco;
+	private String cidade;
+	private String uf;
+	
+	//**  cidade
+	public String getCidade() {
+		return cidade;
+	}
+	
+	public void setCidade(String cidade) {
+		this.cidade = cidade;
+	}
+	
+	///*** UF
+	public String getUf() {
+		return uf;
+	}
+	
+	public void setUf(String uf) {
+		this.uf = uf;
+	}
 	
 	
 	//* Nome

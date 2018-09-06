@@ -63,7 +63,7 @@ public class FrmCliente extends JFrame {
 
 		setTitle("Cadastro de Cliente");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setSize(600, 600);
+		setSize(600, 599);
 		setResizable(false);
 		getContentPane().setLayout(null);
 
@@ -140,13 +140,13 @@ public class FrmCliente extends JFrame {
 		JButton btnNovo = new JButton("");
 		btnNovo.setIcon(new ImageIcon(FrmCliente.class.getResource("/br/senai/sp/cfp127/imagens/novo64.png")));
 		btnNovo.setToolTipText("Novo\r\n");
-		btnNovo.setBounds(10, 387, 89, 73);
+		btnNovo.setBounds(10, 376, 89, 73);
 		panelClientes.add(btnNovo);
 
 		JButton btnEditar = new JButton("");
 		btnEditar.setIcon(new ImageIcon(FrmCliente.class.getResource("/br/senai/sp/cfp127/imagens/editar48.png")));
 		btnEditar.setToolTipText("Editar");
-		btnEditar.setBounds(135, 387, 89, 73);
+		btnEditar.setBounds(142, 376, 89, 73);
 		panelClientes.add(btnEditar);
 
 		JButton btnDeletar = new JButton("");
@@ -156,13 +156,13 @@ public class FrmCliente extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
-		btnDeletar.setBounds(261, 387, 89, 73);
+		btnDeletar.setBounds(272, 376, 89, 73);
 		panelClientes.add(btnDeletar);
 
 		JButton btnSair = new JButton("");
 		btnSair.setIcon(new ImageIcon(FrmCliente.class.getResource("/br/senai/sp/cfp127/imagens/sair48.png")));
 		btnSair.setToolTipText("Sair");
-		btnSair.setBounds(490, 387, 89, 73);
+		btnSair.setBounds(490, 376, 89, 73);
 		panelClientes.add(btnSair);
 
 		JPanel panel_1 = new JPanel();
@@ -319,7 +319,7 @@ public class FrmCliente extends JFrame {
 		txtemail.setColumns(10);
 
 		JLabel lblTelefone = new JLabel("Telefone:");
-		lblTelefone.setBounds(177, 79, 46, 14);
+		lblTelefone.setBounds(177, 79, 56, 14);
 		painelEnderecoCliente.add(lblTelefone);
 
 		txtTelefone = new JTextField();
