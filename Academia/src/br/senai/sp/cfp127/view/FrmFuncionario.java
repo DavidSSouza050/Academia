@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import br.senai.sp.cfp127.dao.FuncionarioDAO;
 import br.senai.sp.cfp127.dbutils.Conexao;
 import br.senai.sp.cfp127.modelo.Funcionario;
 
@@ -43,48 +44,48 @@ public class FrmFuncionario extends JFrame {
 		contentPane.setLayout(null);
 		
 		txtId = new JTextField();
-		txtId.setBounds(10, 59, 32, 29);
+		txtId.setBounds(10, 37, 32, 29);
 		contentPane.add(txtId);
 		txtId.setColumns(10);
 		
 		txtNome = new JTextField();
 		txtNome.setColumns(10);
-		txtNome.setBounds(10, 105, 209, 29);
+		txtNome.setBounds(10, 100, 209, 29);
 		contentPane.add(txtNome);
 		
 		txtEmail = new JTextField();
 		txtEmail.setColumns(10);
-		txtEmail.setBounds(10, 171, 125, 29);
+		txtEmail.setBounds(11, 164, 125, 29);
 		contentPane.add(txtEmail);
 		
 		txtCidade = new JTextField();
 		txtCidade.setColumns(10);
-		txtCidade.setBounds(145, 171, 86, 29);
+		txtCidade.setBounds(146, 164, 86, 29);
 		contentPane.add(txtCidade);
 		
 		txtUf = new JTextField();
 		txtUf.setColumns(10);
-		txtUf.setBounds(241, 171, 39, 29);
+		txtUf.setBounds(242, 164, 39, 29);
 		contentPane.add(txtUf);
 		
 		JLabel lblId = new JLabel("ID:");
-		lblId.setBounds(10, 44, 15, 14);
+		lblId.setBounds(10, 24, 15, 14);
 		contentPane.add(lblId);
 		
 		lblNome = new JLabel("Nome:");
-		lblNome.setBounds(10, 90, 63, 14);
+		lblNome.setBounds(10, 85, 63, 14);
 		contentPane.add(lblNome);
 		
 		lblEmail = new JLabel("E-mail:");
-		lblEmail.setBounds(10, 157, 39, 14);
+		lblEmail.setBounds(11, 150, 39, 14);
 		contentPane.add(lblEmail);
 		
 		lblCidade = new JLabel("Cidade:");
-		lblCidade.setBounds(145, 157, 63, 14);
+		lblCidade.setBounds(146, 150, 63, 14);
 		contentPane.add(lblCidade);
 		
 		lblUf = new JLabel("UF:");
-		lblUf.setBounds(241, 157, 35, 14);
+		lblUf.setBounds(242, 150, 35, 14);
 		contentPane.add(lblUf);
 		
 		JButton btnSalvar = new JButton("Salvar");
@@ -100,100 +101,87 @@ public class FrmFuncionario extends JFrame {
 		btnAtualizar.setBounds(109, 226, 89, 43);
 		contentPane.add(btnAtualizar);
 		
-		JButton btnExibir = new JButton("Exibir");
-		btnExibir.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnExibir.setBounds(213, 226, 89, 43);
-		contentPane.add(btnExibir);
+		JButton btnExcluir = new JButton("Excluir");
+	
+		btnExcluir.setBounds(213, 226, 89, 43);
+		contentPane.add(btnExcluir);
 		
 		JButton btnBuscar = new JButton("Buscar");
 		
-		btnBuscar.setBounds(59, 55, 89, 29);
+		btnBuscar.setBounds(66, 37, 89, 29);
 		contentPane.add(btnBuscar);
 		
 		JButton btnNovo = new JButton("Novo");
 	
-		btnNovo.setBounds(191, 59, 89, 29);
+		btnNovo.setBounds(192, 37, 89, 29);
 		
 		//**** LISTENERS DOS BOTÕES
 		
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				Funcionario funcionario = new Funcionario();
-				funcionario.setNome(txtNome.getText());
-				funcionario.setCidade(txtCidade.getText());
-				funcionario.setUf(txtUf.getText());
-				funcionario.setEmail(txtEmail.getText());
-				
-				
-				try {
-					Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
-					Connection con = DriverManager.getConnection("jdbc:ucanaccess://Z://SegundoTermo//Git/Academia.accdb");
-					
-					String sql ="INSERT INTO funcionario (nome, email, cidade, uf) "
-							+ "VALUES (?, ?, ?, ?)";
-				
-					PreparedStatement stm =  con.prepareStatement(sql);
-					stm.setString(1, txtNome.getText());
-					stm.setString(2, txtEmail.getText());
-					stm.setString(3, txtCidade.getText());
-					stm.setString(4, txtUf.getText());
-					
-					if (!stm.execute()) {
-						JOptionPane.showMessageDialog(null, "Registro Gravado com Sucesso! ");
-						limparCampos();
-					}else {
-						JOptionPane.showMessageDialog(null, "Ocorreu um erro na Gravação!");
-					}
-					
-				} catch(Exception erro) {
-						erro.getMessage();
-				}
-
+				criarFuncionario("S");
 			}
 		});
 		
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
-				try {
-					
-					String consulta ="SELECT * FROM funcionario WHERE id = ?";
-				
-					PreparedStatement stm =  Conexao.getConexao().prepareStatement(consulta);
-					stm.setInt(1, Integer.parseInt(txtId.getText()));
-					
-					ResultSet rs ;
-					
-					rs = stm.executeQuery();
-					
-				if	(rs.next()) {
-					txtNome.setText(rs.getString("nome"));
-					txtEmail.setText(rs.getString("email"));
-					txtCidade.setText(rs.getString("cidade"));
-					txtUf.setText(rs.getString("uf"));
-				} else {
-					limparCampos();
-					JOptionPane.showMessageDialog(null,"Registro não encontrado");
-				}
-					
-				} catch(Exception erro) {
-						erro.getMessage();
-					}
-				
+			
+				FuncionarioDAO dao = new FuncionarioDAO();
+				Funcionario funcionario = dao.getFuncionario(Integer.parseInt(txtId.getText()));
+				txtNome.setText(funcionario.getNome());
+				txtEmail.setText(funcionario.getEmail());
+				txtCidade.setText(funcionario.getCidade());
+				txtUf.setText(funcionario.getUf());
 			}
 		});
 		
 		btnNovo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				limparCampos();
-				txtNome.requestFocus();
+				
+				if(btnNovo.getText().equals("Cancelar")) {
+					btnNovo.setText("Novo");
+					btnAtualizar.setEnabled(true);
+					btnExcluir.setEnabled(true);
+					txtId.setEnabled(true);
+					btnBuscar.setEnabled(true);
+					btnSalvar.setEnabled(false);
+					txtId.requestFocus();
+				}else {
+					btnNovo.setText("Cancelar");
+					btnAtualizar.setEnabled(false);
+					btnExcluir.setEnabled(false);
+					txtId.setEnabled(false);
+					btnBuscar.setEnabled(false);
+					btnSalvar.setEnabled(true);
+					txtNome.requestFocus();
+				}
 			}
 		});
 		
+		btnAtualizar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				criarFuncionario("A");
+			}
+		});
+		
+		btnExcluir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				if(txtId.getText().equals("")) {
+					JOptionPane.showMessageDialog(null, "Por favor selecione o Usuario?");
+				}else {
+				
+				
+				int resposta = JOptionPane.showConfirmDialog(null, "Confirma a exclusão do registro?");
+				
+				if(resposta == 0) {
+					criarFuncionario("E");
+				}
+					limparCampos();
+				}
+			}
+		});
 		
 		
 		contentPane.add(btnNovo);
@@ -207,6 +195,26 @@ public class FrmFuncionario extends JFrame {
 		txtId.setText("");
 	}
 
-	
+	private void criarFuncionario(String operacao) {
+		
+		Funcionario funcionario = new Funcionario();
+		funcionario.setNome(txtNome.getText());
+		funcionario.setCidade(txtCidade.getText());
+		funcionario.setUf(txtUf.getText());
+		funcionario.setEmail(txtEmail.getText());
+		
+		
+		FuncionarioDAO dao = new FuncionarioDAO(funcionario);
+		
+		if(operacao.equals("S")) {
+			dao.salvar();
+		}else if(operacao.equals("A")) {
+			funcionario.setId(Integer.parseInt(txtId.getText()));
+			dao.atualizar();
+		}else {
+			funcionario.setId(Integer.parseInt(txtId.getText()));
+			dao.excluir();
+		}
+	}
 	
 }
