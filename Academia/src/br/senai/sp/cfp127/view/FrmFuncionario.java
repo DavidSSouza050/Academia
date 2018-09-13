@@ -16,11 +16,17 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
+import javax.swing.border.TitledBorder;
+import javax.swing.JTable;
+import javax.swing.JScrollPane;
 
 public class FrmFuncionario extends JFrame {
 
@@ -34,106 +40,126 @@ public class FrmFuncionario extends JFrame {
 	private JLabel lblEmail;
 	private JLabel lblCidade;
 	private JLabel lblUf;
+	private JPanel panelDetalhes;
+	private JPanel panelTabela;
+	private JTable tableFuncionario;
 
 	public FrmFuncionario() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 333, 319);
+		setBounds(100, 100, 731, 367);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		txtId = new JTextField();
-		txtId.setBounds(10, 37, 32, 29);
-		contentPane.add(txtId);
-		txtId.setColumns(10);
-		
-		txtNome = new JTextField();
-		txtNome.setColumns(10);
-		txtNome.setBounds(10, 100, 209, 29);
-		contentPane.add(txtNome);
-		
-		txtEmail = new JTextField();
-		txtEmail.setColumns(10);
-		txtEmail.setBounds(11, 164, 125, 29);
-		contentPane.add(txtEmail);
-		
-		txtCidade = new JTextField();
-		txtCidade.setColumns(10);
-		txtCidade.setBounds(146, 164, 86, 29);
-		contentPane.add(txtCidade);
-		
-		txtUf = new JTextField();
-		txtUf.setColumns(10);
-		txtUf.setBounds(242, 164, 39, 29);
-		contentPane.add(txtUf);
-		
-		JLabel lblId = new JLabel("ID:");
-		lblId.setBounds(10, 24, 15, 14);
-		contentPane.add(lblId);
-		
-		lblNome = new JLabel("Nome:");
-		lblNome.setBounds(10, 85, 63, 14);
-		contentPane.add(lblNome);
-		
-		lblEmail = new JLabel("E-mail:");
-		lblEmail.setBounds(11, 150, 39, 14);
-		contentPane.add(lblEmail);
-		
-		lblCidade = new JLabel("Cidade:");
-		lblCidade.setBounds(146, 150, 63, 14);
-		contentPane.add(lblCidade);
-		
-		lblUf = new JLabel("UF:");
-		lblUf.setBounds(242, 150, 35, 14);
-		contentPane.add(lblUf);
-		
-		JButton btnSalvar = new JButton("Salvar");
-		
-		btnSalvar.setBounds(10, 226, 89, 43);
-		contentPane.add(btnSalvar);
-		
-		JButton btnAtualizar = new JButton("Atualizar");
-		btnAtualizar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
-		btnAtualizar.setBounds(109, 226, 89, 43);
-		contentPane.add(btnAtualizar);
+		panelDetalhes = new JPanel();
+		panelDetalhes.setBorder(new TitledBorder(null, "Detalhes do Funcionario", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panelDetalhes.setBounds(349, 11, 360, 312);
+		contentPane.add(panelDetalhes);
+		panelDetalhes.setLayout(null);
 		
 		JButton btnExcluir = new JButton("Excluir");
-	
-		btnExcluir.setBounds(213, 226, 89, 43);
-		contentPane.add(btnExcluir);
+		btnExcluir.setBounds(239, 250, 89, 43);
+		panelDetalhes.add(btnExcluir);
+		
+		JButton btnAtualizar = new JButton("Atualizar");
+		btnAtualizar.setBounds(135, 250, 89, 43);
+		panelDetalhes.add(btnAtualizar);
+		
+		JButton btnSalvar = new JButton("Salvar");
+		btnSalvar.setEnabled(false);
+		btnSalvar.setBounds(36, 250, 89, 43);
+		panelDetalhes.add(btnSalvar);
+		
+		txtEmail = new JTextField();
+		txtEmail.setBounds(37, 188, 125, 29);
+		panelDetalhes.add(txtEmail);
+		txtEmail.setColumns(10);
+		
+		lblEmail = new JLabel("E-mail:");
+		lblEmail.setBounds(37, 174, 39, 14);
+		panelDetalhes.add(lblEmail);
+		
+		txtCidade = new JTextField();
+		txtCidade.setBounds(172, 188, 86, 29);
+		panelDetalhes.add(txtCidade);
+		txtCidade.setColumns(10);
+		
+		lblCidade = new JLabel("Cidade:");
+		lblCidade.setBounds(172, 174, 63, 14);
+		panelDetalhes.add(lblCidade);
+		
+		txtUf = new JTextField();
+		txtUf.setBounds(268, 188, 39, 29);
+		panelDetalhes.add(txtUf);
+		txtUf.setColumns(10);
+		
+		lblUf = new JLabel("UF:");
+		lblUf.setBounds(268, 174, 35, 14);
+		panelDetalhes.add(lblUf);
+		
+		txtNome = new JTextField();
+		txtNome.setBounds(36, 124, 209, 29);
+		panelDetalhes.add(txtNome);
+		txtNome.setColumns(10);
+		
+		lblNome = new JLabel("Nome:");
+		lblNome.setBounds(36, 109, 63, 14);
+		panelDetalhes.add(lblNome);
+		
+		txtId = new JTextField();
+		txtId.setBounds(36, 61, 32, 29);
+		panelDetalhes.add(txtId);
+		txtId.setColumns(10);
+		
+		JLabel lblId = new JLabel("ID:");
+		lblId.setBounds(36, 48, 15, 14);
+		panelDetalhes.add(lblId);
 		
 		JButton btnBuscar = new JButton("Buscar");
-		
-		btnBuscar.setBounds(66, 37, 89, 29);
-		contentPane.add(btnBuscar);
+		btnBuscar.setBounds(92, 61, 89, 29);
+		panelDetalhes.add(btnBuscar);
 		
 		JButton btnNovo = new JButton("Novo");
-	
-		btnNovo.setBounds(192, 37, 89, 29);
+		btnNovo.setBounds(218, 61, 89, 29);
+		panelDetalhes.add(btnNovo);
 		
-		//**** LISTENERS DOS BOTÕES
+		panelTabela = new JPanel();
+		panelTabela.setBorder(new TitledBorder(null, "Lista de Funcionarios", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panelTabela.setBounds(10, 11, 329, 312);
+		contentPane.add(panelTabela);
+		panelTabela.setLayout(null);
 		
-		btnSalvar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				criarFuncionario("S");
-			}
-		});
 		
-		btnBuscar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		
+		///**** AQUI COMEÇA A TABELA
+		
+		
+		FuncionarioDAO dao = new FuncionarioDAO();
+		ArrayList<Funcionario> funcionarios = dao.getFuncionarios();
+		
+		String[] colunas = {"Codigo", "Nome do funcionario"};
+		
+		String[][] dados = new String[dao.getFuncionarios().size()][2] ;
+
+		for (int i=0; i < dao.getFuncionarios().size(); i++) {
+			dados[i][0] = String.valueOf(dao.getFuncionarios().get(i).getId());
+			dados[i][1] = dao.getFuncionarios().get(i).getNome();
 			
-				FuncionarioDAO dao = new FuncionarioDAO();
-				Funcionario funcionario = dao.getFuncionario(Integer.parseInt(txtId.getText()));
-				txtNome.setText(funcionario.getNome());
-				txtEmail.setText(funcionario.getEmail());
-				txtCidade.setText(funcionario.getCidade());
-				txtUf.setText(funcionario.getUf());
-			}
-		});
+		}
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 27, 309, 185);
+		panelTabela.add(scrollPane);
+		
+		tableFuncionario = new JTable(dados, colunas);
+		scrollPane.setViewportView(tableFuncionario);
+		
+		//** A tabela termina aqui
+		
+		
+		//*** LISTENERS DOS BOTÕES
+		
 		
 		btnNovo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -156,6 +182,23 @@ public class FrmFuncionario extends JFrame {
 					btnSalvar.setEnabled(true);
 					txtNome.requestFocus();
 				}
+			}
+		});
+		
+		btnBuscar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				exibirFuncionario(Integer.parseInt(txtId.getText()));
+			}
+		});
+		
+	
+		btnSalvar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				criarFuncionario("S");
+			}
+		});
+		btnAtualizar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
 		
@@ -183,8 +226,52 @@ public class FrmFuncionario extends JFrame {
 			}
 		});
 		
+		tableFuncionario.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				int linha = tableFuncionario.getSelectedRow();
+				String id = tableFuncionario.getValueAt(linha, 0).toString();
+				exibirFuncionario(Integer.parseInt(id));
+				
+			}
+		});;
 		
-		contentPane.add(btnNovo);
+	}
+	
+	public void exibirFuncionario(int id) {
+		FuncionarioDAO dao = new FuncionarioDAO();
+		Funcionario funcionario = dao.getFuncionario(id);
+		txtNome.setText(funcionario.getNome());
+		txtEmail.setText(funcionario.getEmail());
+		txtCidade.setText(funcionario.getCidade());
+		txtUf.setText(funcionario.getUf());
+		txtId.setText(String.valueOf(funcionario.getId()));
 	}
 	
 	private void limparCampos() {
@@ -217,4 +304,6 @@ public class FrmFuncionario extends JFrame {
 		}
 	}
 	
+	
+
 }

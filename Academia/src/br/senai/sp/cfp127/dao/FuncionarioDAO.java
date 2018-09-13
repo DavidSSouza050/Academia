@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
@@ -53,6 +54,38 @@ public class FuncionarioDAO {
 				erro.printStackTrace();
 		}
 		return funcionario;
+	}
+	
+	public ArrayList<Funcionario> getFuncionarios() {
+		
+		ArrayList<Funcionario> funcionarios = new ArrayList<>();
+
+		try {
+			
+			String consulta ="SELECT * FROM funcionario ORDER BY nome";
+		
+			PreparedStatement stm =  Conexao.getConexao().prepareStatement(consulta);
+			
+			ResultSet rs ;
+			
+			rs = stm.executeQuery();
+			
+			while	(rs.next()) {
+				funcionario = new Funcionario();
+				this.funcionario.setNome(rs.getString("nome"));
+				this.funcionario.setEmail(rs.getString("email"));
+				this.funcionario.setCidade(rs.getString("cidade"));
+				this.funcionario.setUf(rs.getString("uf"));
+				this.funcionario.setId(rs.getInt("id"));
+				
+				funcionarios.add(funcionario);
+			
+			}
+			
+		} catch(Exception erro) {
+				erro.printStackTrace();
+		}
+		return funcionarios;
 	}
 	
 	public void salvar(){
