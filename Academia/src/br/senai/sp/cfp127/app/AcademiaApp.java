@@ -35,10 +35,10 @@ public class AcademiaApp {
 		
 
 		
-		//FrmCliente janela = new FrmCliente();
+		FrmCliente janela = new FrmCliente();
 		
-		FrmFuncionario Funcionario = new FrmFuncionario();
-		Funcionario.setVisible(true);
+		//FrmFuncionario Funcionario = new FrmFuncionario();
+		janela.setVisible(true);
 		
 	}
 

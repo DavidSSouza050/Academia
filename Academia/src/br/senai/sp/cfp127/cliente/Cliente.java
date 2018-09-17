@@ -1,5 +1,8 @@
 package br.senai.sp.cfp127.cliente;
 
+import java.time.Instant;
+import java.time.LocalDate;
+
 public class Cliente {
 	
 	private String nome;
@@ -8,6 +11,7 @@ public class Cliente {
 	private double altura;
 	private char sexo;
 	private int nivelAtividade;
+	private int codigoCliente;
 	
 	
 	private String logradouro;
@@ -46,8 +50,17 @@ public class Cliente {
 		this.nome = nome;
 	}
 
+	//** Código da cliente
+	public int getCodigoCliente() {
+		return codigoCliente;
+	}
+	public void setCodigoCliente(int codigoCliente) {
+		this.codigoCliente = codigoCliente;
+	}
+
 	//** IDADE
 	public int getIdade() {
+	
 		return idade;
 	}
 	

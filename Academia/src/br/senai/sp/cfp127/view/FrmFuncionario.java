@@ -27,6 +27,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.border.TitledBorder;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 
 public class FrmFuncionario extends JFrame {
 
@@ -46,89 +47,11 @@ public class FrmFuncionario extends JFrame {
 
 	public FrmFuncionario() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 731, 367);
+		setBounds(100, 100, 471, 417);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
-		panelDetalhes = new JPanel();
-		panelDetalhes.setBorder(new TitledBorder(null, "Detalhes do Funcionario", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panelDetalhes.setBounds(349, 11, 360, 312);
-		contentPane.add(panelDetalhes);
-		panelDetalhes.setLayout(null);
-		
-		JButton btnExcluir = new JButton("Excluir");
-		btnExcluir.setBounds(239, 250, 89, 43);
-		panelDetalhes.add(btnExcluir);
-		
-		JButton btnAtualizar = new JButton("Atualizar");
-		btnAtualizar.setBounds(135, 250, 89, 43);
-		panelDetalhes.add(btnAtualizar);
-		
-		JButton btnSalvar = new JButton("Salvar");
-		btnSalvar.setEnabled(false);
-		btnSalvar.setBounds(36, 250, 89, 43);
-		panelDetalhes.add(btnSalvar);
-		
-		txtEmail = new JTextField();
-		txtEmail.setBounds(37, 188, 125, 29);
-		panelDetalhes.add(txtEmail);
-		txtEmail.setColumns(10);
-		
-		lblEmail = new JLabel("E-mail:");
-		lblEmail.setBounds(37, 174, 39, 14);
-		panelDetalhes.add(lblEmail);
-		
-		txtCidade = new JTextField();
-		txtCidade.setBounds(172, 188, 86, 29);
-		panelDetalhes.add(txtCidade);
-		txtCidade.setColumns(10);
-		
-		lblCidade = new JLabel("Cidade:");
-		lblCidade.setBounds(172, 174, 63, 14);
-		panelDetalhes.add(lblCidade);
-		
-		txtUf = new JTextField();
-		txtUf.setBounds(268, 188, 39, 29);
-		panelDetalhes.add(txtUf);
-		txtUf.setColumns(10);
-		
-		lblUf = new JLabel("UF:");
-		lblUf.setBounds(268, 174, 35, 14);
-		panelDetalhes.add(lblUf);
-		
-		txtNome = new JTextField();
-		txtNome.setBounds(36, 124, 209, 29);
-		panelDetalhes.add(txtNome);
-		txtNome.setColumns(10);
-		
-		lblNome = new JLabel("Nome:");
-		lblNome.setBounds(36, 109, 63, 14);
-		panelDetalhes.add(lblNome);
-		
-		txtId = new JTextField();
-		txtId.setBounds(36, 61, 32, 29);
-		panelDetalhes.add(txtId);
-		txtId.setColumns(10);
-		
-		JLabel lblId = new JLabel("ID:");
-		lblId.setBounds(36, 48, 15, 14);
-		panelDetalhes.add(lblId);
-		
-		JButton btnBuscar = new JButton("Buscar");
-		btnBuscar.setBounds(92, 61, 89, 29);
-		panelDetalhes.add(btnBuscar);
-		
-		JButton btnNovo = new JButton("Novo");
-		btnNovo.setBounds(218, 61, 89, 29);
-		panelDetalhes.add(btnNovo);
-		
-		panelTabela = new JPanel();
-		panelTabela.setBorder(new TitledBorder(null, "Lista de Funcionarios", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panelTabela.setBounds(10, 11, 329, 312);
-		contentPane.add(panelTabela);
-		panelTabela.setLayout(null);
 		
 		
 		
@@ -148,12 +71,92 @@ public class FrmFuncionario extends JFrame {
 			
 		}
 		
+		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane.setBounds(0, 11, 445, 360);
+		contentPane.add(tabbedPane);
+		
+		panelTabela = new JPanel();
+		tabbedPane.addTab("New tab", null, panelTabela, null);
+		panelTabela.setBorder(new TitledBorder(null, "Lista de Funcionarios", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panelTabela.setLayout(null);
+		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 27, 309, 185);
+		scrollPane.setBounds(23, 51, 380, 201);
 		panelTabela.add(scrollPane);
 		
 		tableFuncionario = new JTable(dados, colunas);
 		scrollPane.setViewportView(tableFuncionario);
+		
+		panelDetalhes = new JPanel();
+		tabbedPane.addTab("New tab", null, panelDetalhes, null);
+		panelDetalhes.setBorder(new TitledBorder(null, "Detalhes do Funcionario", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panelDetalhes.setLayout(null);
+		
+		JButton btnExcluir = new JButton("Excluir");
+		btnExcluir.setBounds(265, 265, 89, 43);
+		panelDetalhes.add(btnExcluir);
+		
+		JButton btnAtualizar = new JButton("Atualizar");
+		btnAtualizar.setBounds(161, 265, 89, 43);
+		panelDetalhes.add(btnAtualizar);
+		
+		JButton btnSalvar = new JButton("Salvar");
+		btnSalvar.setEnabled(false);
+		btnSalvar.setBounds(62, 265, 89, 43);
+		panelDetalhes.add(btnSalvar);
+		
+		txtEmail = new JTextField();
+		txtEmail.setBounds(10, 205, 161, 29);
+		panelDetalhes.add(txtEmail);
+		txtEmail.setColumns(10);
+		
+		lblEmail = new JLabel("E-mail:");
+		lblEmail.setBounds(10, 191, 39, 14);
+		panelDetalhes.add(lblEmail);
+		
+		txtCidade = new JTextField();
+		txtCidade.setBounds(181, 205, 173, 29);
+		panelDetalhes.add(txtCidade);
+		txtCidade.setColumns(10);
+		
+		lblCidade = new JLabel("Cidade:");
+		lblCidade.setBounds(187, 191, 63, 14);
+		panelDetalhes.add(lblCidade);
+		
+		txtUf = new JTextField();
+		txtUf.setBounds(373, 205, 39, 29);
+		panelDetalhes.add(txtUf);
+		txtUf.setColumns(10);
+		
+		lblUf = new JLabel("UF:");
+		lblUf.setBounds(373, 191, 35, 14);
+		panelDetalhes.add(lblUf);
+		
+		txtNome = new JTextField();
+		txtNome.setBounds(11, 131, 335, 29);
+		panelDetalhes.add(txtNome);
+		txtNome.setColumns(10);
+		
+		lblNome = new JLabel("Nome:");
+		lblNome.setBounds(10, 116, 63, 14);
+		panelDetalhes.add(lblNome);
+		
+		txtId = new JTextField();
+		txtId.setBounds(10, 61, 32, 29);
+		panelDetalhes.add(txtId);
+		txtId.setColumns(10);
+		
+		JLabel lblId = new JLabel("ID:");
+		lblId.setBounds(10, 48, 15, 14);
+		panelDetalhes.add(lblId);
+		
+		JButton btnBuscar = new JButton("Buscar");
+		btnBuscar.setBounds(92, 61, 89, 29);
+		panelDetalhes.add(btnBuscar);
+		
+		JButton btnNovo = new JButton("Novo");
+		btnNovo.setBounds(218, 61, 89, 29);
+		panelDetalhes.add(btnNovo);
 		
 		//** A tabela termina aqui
 		
@@ -212,7 +215,7 @@ public class FrmFuncionario extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				if(txtId.getText().equals("")) {
-					JOptionPane.showMessageDialog(null, "Por favor selecione o Usuario?");
+					JOptionPane.showMessageDialog(null, "Por favor selecione o Usuario");
 				}else {
 				
 				
@@ -258,6 +261,7 @@ public class FrmFuncionario extends JFrame {
 				int linha = tableFuncionario.getSelectedRow();
 				String id = tableFuncionario.getValueAt(linha, 0).toString();
 				exibirFuncionario(Integer.parseInt(id));
+				tabbedPane.setSelectedIndex(1);
 				
 			}
 		});;
@@ -303,7 +307,4 @@ public class FrmFuncionario extends JFrame {
 			dao.excluir();
 		}
 	}
-	
-	
-
 }

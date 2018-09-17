@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.Set;
 
 import javax.swing.*;
@@ -56,7 +58,7 @@ public class FrmCliente extends JFrame {
 	private JLabel lblLogradouro;
 	private JTextField txtLogra;
 	private JPanel panelClientes;
-	private JTable table;
+	private JTable tableCliente;
 
 	public FrmCliente() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(FrmCliente.class.getResource("/br/senai/sp/cfp127/imagens/gym32.png")));
@@ -121,8 +123,9 @@ public class FrmCliente extends JFrame {
 		scrollTabela.setBounds(10, 22, 569, 249);
 		panelClientes.add(scrollTabela);
 
-		table = new JTable();
-		table.setModel(new DefaultTableModel(new Object[][] { { null, null, null }, { null, null, null },
+		//***A tabela cliente Começa aqui
+		tableCliente = new JTable();
+		tableCliente.setModel(new DefaultTableModel(new Object[][] { { null, null, null }, { null, null, null },
 				{ null, null, null }, { null, null, null }, }, new String[] { "ID", "Nome", "Email" }) {
 			boolean[] columnEditables = new boolean[] { false, false, false };
 
@@ -130,12 +133,48 @@ public class FrmCliente extends JFrame {
 				return columnEditables[column];
 			}
 		});
-		table.getColumnModel().getColumn(0).setResizable(false);
-		table.getColumnModel().getColumn(0).setPreferredWidth(50);
-		table.getColumnModel().getColumn(1).setResizable(false);
-		table.getColumnModel().getColumn(1).setPreferredWidth(177);
-		table.getColumnModel().getColumn(2).setResizable(false);
-		scrollTabela.setViewportView(table);
+		tableCliente.getColumnModel().getColumn(0).setResizable(false);
+		tableCliente.getColumnModel().getColumn(0).setPreferredWidth(50);
+		tableCliente.getColumnModel().getColumn(1).setResizable(false);
+		tableCliente.getColumnModel().getColumn(1).setPreferredWidth(177);
+		tableCliente.getColumnModel().getColumn(2).setResizable(false);
+		scrollTabela.setViewportView(tableCliente);
+		
+		tableCliente.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+
+				
+			}
+		});
+		
+		
+		//***A tabela cliente termina aqui
 
 		JButton btnNovo = new JButton("");
 		btnNovo.setIcon(new ImageIcon(FrmCliente.class.getResource("/br/senai/sp/cfp127/imagens/novo64.png")));
@@ -252,7 +291,7 @@ public class FrmCliente extends JFrame {
 		grupoRadio.add(rdMasculino);
 
 		btCalcular = new JButton("");
-		btCalcular.setBounds(184, 169, 170, 46);
+		btCalcular.setBounds(184, 159, 170, 46);
 		painelDados.add(btCalcular);
 		btCalcular.setToolTipText("Salvar");
 		btCalcular.setIcon(new ImageIcon(FrmCliente.class.getResource("/br/senai/sp/cfp127/imagens/Salvar32.png")));
