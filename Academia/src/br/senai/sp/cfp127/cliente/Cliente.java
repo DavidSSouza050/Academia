@@ -68,7 +68,7 @@ public class Cliente {
 		this.idade = idade;
 	}
 	
-	//** PEDO
+	//** PESO
 	public double getPeso() {
 		return peso;
 	}

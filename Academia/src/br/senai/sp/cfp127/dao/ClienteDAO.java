@@ -23,7 +23,7 @@ private Cliente cliente;
 	}
 	public ClienteDAO(){}
 	
-	public Cliente getCliente(int codigoCliente) {
+	/*public Cliente getCliente(int codigoCliente) {
 		
 		try {
 			
@@ -59,9 +59,14 @@ private Cliente cliente;
 				erro.printStackTrace();
 		}
 		return cliente;
-	}
+	}*/
 	
-	public ArrayList<Cliente> getFuncionarios() {
+	
+	
+	
+	
+	
+/*	public ArrayList<Cliente> getFuncionarios() {
 		
 		ArrayList<Cliente> cliente= new ArrayList<>();
 
@@ -91,19 +96,31 @@ private Cliente cliente;
 				erro.printStackTrace();
 		}
 		return funcionarios;
-	}
+	}*/
+	
+	
+	
+	
+	
 	
 	public void salvar(){
 		try {
 			
-			String sql ="INSERT INTO funcionario (nome, email, cidade, uf) "
-					+ "VALUES (?, ?, ?, ?)";
+			String sql ="INSERT INTO cliente (nome, peso, altura,"
+					+ " nivelAtividade, logradouro, bairro, cidade, telofone"
+					+ "email ) "
+					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		
 			PreparedStatement stm =   Conexao.getConexao().prepareStatement(sql);
-			stm.setString(1, this.funcionario.getNome());
-			stm.setString(2,  this.funcionario.getEmail());
-			stm.setString(3,  this.funcionario.getCidade());
-			stm.setString(4,  this.funcionario.getUf());
+			stm.setString(1, this.cliente.getNome());
+			stm.setDouble(2,  this.cliente.getPeso());
+			stm.setDouble(3,  this.cliente.getAltura());
+			stm.setInt(4,  this.cliente.getNivelAtividade());
+			stm.setString(5, this.cliente.getLogradouro());
+			stm.setString(6, this.cliente.getBairro());
+			stm.setString(7, this.cliente.getCidade());
+			stm.setString(8, this.cliente.getTelefone());
+			stm.setString(9, this.cliente.getEmail());
 			
 			if (!stm.execute()) {
 				JOptionPane.showMessageDialog(null, "Registro Gravado com Sucesso! ");
@@ -116,7 +133,12 @@ private Cliente cliente;
 		}
 	}
 	
-	public void atualizar() {
+	
+	
+	
+	
+	
+	/*public void atualizar() {
 		try {
 			
 			
@@ -139,14 +161,20 @@ private Cliente cliente;
 				erro.getMessage();
 		}
 		
-	}
+	}*/
+	
+	
+	
+	
+	
 
+	
 	public void excluir() {
 		try {
 			
 			String sql ="DELETE FROM funcionario WHERE id=?";
 			PreparedStatement stm = Conexao.getConexao().prepareStatement(sql);
-			stm.setInt(1, this.funcionario.getId());
+			stm.setInt(1, this.cliente.getCodigoCliente());
 			
 			if (!stm.execute()) {
 				JOptionPane.showMessageDialog(null, "Registro Excluido com Sucesso! ");

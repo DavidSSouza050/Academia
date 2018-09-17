@@ -12,6 +12,8 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
 import br.senai.sp.cfp127.cliente.Cliente;
+import br.senai.sp.cfp127.dao.ClienteDAO;
+
 import java.awt.TextArea;
 import java.awt.Toolkit;
 import javax.swing.border.LineBorder;
@@ -51,8 +53,8 @@ public class FrmCliente extends JFrame {
 	private JPanel panelSexo;
 	private JPanel painelEnderecoCliente;
 	private JTextField txtCidade;
-	private JTextField textField;
-	private JTextField txtemail;
+	private JTextField txtBairro;
+	private JTextField txtEmail;
 	private JTextField txtTelefone;
 	private JLabel lblImcl;
 	private JLabel lblLogradouro;
@@ -300,25 +302,9 @@ public class FrmCliente extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Cliente cliente = new Cliente();
-				cliente.setNome(txtNome.getText());
-				cliente.setPeso(Double.parseDouble(txtPeso.getText()));
-				cliente.setAltura(Double.parseDouble(txtAltura.getText()));
-				cliente.setIdade(Integer.parseInt(txtIdade.getText()));
-				cliente.setNivelAtividade(cdAtividade.getSelectedIndex() + 1);
+				criarCliente("Salvar");
 
-				if (rdFeminino.isSelected()) {
-					cliente.setSexo('F');
-				} else if (rdMasculino.isSelected()) {
-					cliente.setSexo('M');
-
-				} else {
-					JOptionPane.showMessageDialog(null, "Para de ser burro");
-				}
-
-				lblImcl.setText(cliente.getImc());
-				lblTmbL.setText(String.valueOf(cliente.getTmb()));
-				lblFcmL.setText(String.valueOf(cliente.getFcm()));
+				
 			}
 		});
 
@@ -343,19 +329,19 @@ public class FrmCliente extends JFrame {
 		lblBairro.setBounds(177, 26, 46, 14);
 		painelEnderecoCliente.add(lblBairro);
 
-		textField = new JTextField();
-		textField.setBounds(177, 41, 160, 27);
-		painelEnderecoCliente.add(textField);
-		textField.setColumns(10);
+		txtBairro = new JTextField();
+		txtBairro.setBounds(177, 41, 160, 27);
+		painelEnderecoCliente.add(txtBairro);
+		txtBairro.setColumns(10);
 
 		JLabel lblEmail = new JLabel("Email:");
 		lblEmail.setBounds(10, 79, 46, 14);
 		painelEnderecoCliente.add(lblEmail);
 
-		txtemail = new JTextField();
-		txtemail.setBounds(10, 93, 137, 27);
-		painelEnderecoCliente.add(txtemail);
-		txtemail.setColumns(10);
+		txtEmail = new JTextField();
+		txtEmail.setBounds(10, 93, 137, 27);
+		painelEnderecoCliente.add(txtEmail);
+		txtEmail.setColumns(10);
 
 		JLabel lblTelefone = new JLabel("Telefone:");
 		lblTelefone.setBounds(177, 79, 56, 14);
@@ -413,5 +399,37 @@ public class FrmCliente extends JFrame {
 
 		setVisible(true);
 
+	}
+	
+	private void criarCliente(String operacao) {
+		Cliente cliente = new Cliente();
+		cliente.setNome(txtNome.getText());
+		cliente.setPeso(Double.parseDouble(txtPeso.getText()));
+		cliente.setAltura(Double.parseDouble(txtAltura.getText()));
+		cliente.setIdade(Integer.parseInt(txtIdade.getText()));
+		cliente.setNivelAtividade(cdAtividade.getSelectedIndex() + 1);
+		cliente.setLogradouro(txtLogra.getText());
+		cliente.setBairro(txtBairro.getText());
+		cliente.setCidade(txtCidade.getText());
+		cliente.setTelefone(txtTelefone.getText());
+		cliente.setEmail(txtEmail.getText());
+		
+		ClienteDAO dao = new ClienteDAO(cliente);
+		if(operacao.equals("Salvar")) {
+			dao.salvar();
+			if (rdFeminino.isSelected()) {
+				cliente.setSexo('F');
+			} else if (rdMasculino.isSelected()) {
+				cliente.setSexo('M');
+
+			} else {
+				JOptionPane.showMessageDialog(null, "Falta alguma caixa");
+			}
+
+			lblImcl.setText(cliente.getImc());
+			lblTmbL.setText(String.valueOf(cliente.getTmb()));
+			lblFcmL.setText(String.valueOf(cliente.getFcm()));
+		}
+		
 	}
 }

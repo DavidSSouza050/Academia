@@ -7,7 +7,7 @@ public class Pessoa {
 	private char sexo;
 	private String telefone;
 	private String email;
-	private String logradouro;
+	private String endereco;
 	private String cidade;
 	private String uf;
 	
@@ -77,16 +77,16 @@ public class Pessoa {
 		this.email = email;
 	}
 
-	//**Endereço
-	public String getLogradouro() {
-		return logradouro;
-	}
-
-	public void setLogradouro(String logradouro) {
-		this.logradouro = logradouro;
-	}
-
 	
+	//**Endereço
+	public String getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(String endereco) {
+		this.endereco = endereco;
+	}
+
 	
 	
 	
