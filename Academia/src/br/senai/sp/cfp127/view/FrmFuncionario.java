@@ -86,6 +86,7 @@ public class FrmFuncionario extends JFrame {
 		
 		tableFuncionario = new JTable(dados, colunas);
 		scrollPane.setViewportView(tableFuncionario);
+		//** A tabela termina aqui
 		
 		panelDetalhes = new JPanel();
 		tabbedPane.addTab("New tab", null, panelDetalhes, null);
@@ -158,7 +159,7 @@ public class FrmFuncionario extends JFrame {
 		btnNovo.setBounds(218, 61, 89, 29);
 		panelDetalhes.add(btnNovo);
 		
-		//** A tabela termina aqui
+		
 		
 		
 		//*** LISTENERS DOS BOTÕES

@@ -62,7 +62,7 @@ public class FuncionarioDAO {
 
 		try {
 			
-			String consulta ="SELECT * FROM funcionario ORDER BY nome";
+			String consulta ="SELECT * FROM funcionario ORDER BY id";
 		
 			PreparedStatement stm =  Conexao.getConexao().prepareStatement(consulta);
 			

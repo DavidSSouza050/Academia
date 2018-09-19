@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 import java.util.Set;
 
 import javax.swing.*;
@@ -125,60 +126,10 @@ public class FrmCliente extends JFrame {
 		scrollTabela.setBounds(10, 22, 569, 249);
 		panelClientes.add(scrollTabela);
 
-		//***A tabela cliente Começa aqui
-		tableCliente = new JTable();
-		tableCliente.setModel(new DefaultTableModel(new Object[][] { { null, null, null }, { null, null, null },
-				{ null, null, null }, { null, null, null }, }, new String[] { "ID", "Nome", "Email" }) {
-			boolean[] columnEditables = new boolean[] { false, false, false };
-
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
-			}
-		});
-		tableCliente.getColumnModel().getColumn(0).setResizable(false);
-		tableCliente.getColumnModel().getColumn(0).setPreferredWidth(50);
-		tableCliente.getColumnModel().getColumn(1).setResizable(false);
-		tableCliente.getColumnModel().getColumn(1).setPreferredWidth(177);
-		tableCliente.getColumnModel().getColumn(2).setResizable(false);
-		scrollTabela.setViewportView(tableCliente);
 		
-		tableCliente.addMouseListener(new MouseListener() {
-			
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseClicked(MouseEvent e) {
-
-				
-			}
-		});
-		
-		
-		//***A tabela cliente termina aqui
 
 		JButton btnNovo = new JButton("");
+		
 		btnNovo.setIcon(new ImageIcon(FrmCliente.class.getResource("/br/senai/sp/cfp127/imagens/novo64.png")));
 		btnNovo.setToolTipText("Novo\r\n");
 		btnNovo.setBounds(10, 376, 89, 73);
@@ -298,15 +249,7 @@ public class FrmCliente extends JFrame {
 		btCalcular.setToolTipText("Salvar");
 		btCalcular.setIcon(new ImageIcon(FrmCliente.class.getResource("/br/senai/sp/cfp127/imagens/Salvar32.png")));
 
-		btCalcular.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				criarCliente("Salvar");
-
-				
-			}
-		});
+		
 
 		painelEnderecoCliente = new JPanel();
 		painelEnderecoCliente.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"),
@@ -396,9 +339,126 @@ public class FrmCliente extends JFrame {
 		lblImcl = new JLabel("...");
 		lblImcl.setBounds(67, 44, 76, 20);
 		panelRsultCliente.add(lblImcl);
+		
+		
+		
+		//***Listeners
+		btCalcular.addActionListener(new ActionListener() {
 
-		setVisible(true);
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				criarCliente("Salvar");
 
+				
+			}
+		});
+		
+		btnNovo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				tabbedPane.setSelectedIndex(1);
+				limparCampos();
+	
+			}
+		});
+
+	
+		//***A tabela cliente Começa aqui
+		
+				ClienteDAO dao = new ClienteDAO();
+				ArrayList<Cliente> clientes = dao.getClientes();
+				
+				String[] colunas = {"Codigo","Nome do Cliente", "Email"};
+				
+				String[][] linhas= new String[dao.getClientes().size()][3];
+				
+				for (int i=0; i < dao.getClientes().size(); i++) {
+					linhas[i][0] = String.valueOf(dao.getClientes().get(i).getCodigoCliente());
+					linhas[i][1] = dao.getClientes().get(i).getNome();
+					linhas[i][2] =  dao.getClientes().get(i).getEmail();
+					
+				};
+				
+				tableCliente = new JTable(linhas, colunas);
+				
+				scrollTabela.setViewportView(tableCliente);
+				
+				tableCliente.addMouseListener(new MouseListener() {
+					
+					@Override
+					public void mouseReleased(MouseEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void mousePressed(MouseEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void mouseExited(MouseEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void mouseEntered(MouseEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						int linha = tableCliente.getSelectedRow();
+						String codigoCliente = tableCliente.getValueAt(linha, 0).toString();
+						exibirCliente(Integer.parseInt(codigoCliente));
+						tabbedPane.setSelectedIndex(1);
+						
+
+						
+					}
+				});
+				
+				
+				//***A tabela cliente termina aqui
+
+	}
+	
+	public void exibirCliente(int codigoCliente) {
+		
+		ClienteDAO dao = new ClienteDAO();
+		Cliente cliente = dao.getCliente(codigoCliente);
+		txtNome.setText(cliente.getNome());
+		txtEmail.setText(cliente.getEmail());
+		txtPeso.setText(String.valueOf(cliente.getPeso()));
+		txtAltura.setText(String.valueOf(cliente.getAltura()));
+		txtIdade.setText(String.valueOf(cliente.getIdade()));
+		txtCidade.setText(cliente.getCidade());
+		txtLogra.setText(cliente.getLogradouro());
+		txtBairro.setText(cliente.getBairro());
+		txtTelefone.setText(cliente.getTelefone());
+		
+		if(String.valueOf(cliente.getSexo()).equals("M")){
+			rdMasculino.setSelected(true);
+		}else if(String.valueOf(cliente.getSexo()).equals("F")){
+			rdFeminino.setSelected(true);
+		}else {}
+		
+	}
+	private void limparCampos() {
+		txtNome.setText("");
+		txtEmail.setText("");
+		txtPeso.setText("");
+		txtAltura.setText("");
+		txtIdade.setText("");
+		txtCidade.setText("");
+		txtLogra.setText("");
+		txtBairro.setText("");
+		txtTelefone.setText("");
+		
+		
 	}
 	
 	private void criarCliente(String operacao) {
@@ -416,7 +476,7 @@ public class FrmCliente extends JFrame {
 		
 		ClienteDAO dao = new ClienteDAO(cliente);
 		if(operacao.equals("Salvar")) {
-			dao.salvar();
+			
 			if (rdFeminino.isSelected()) {
 				cliente.setSexo('F');
 			} else if (rdMasculino.isSelected()) {
@@ -425,10 +485,11 @@ public class FrmCliente extends JFrame {
 			} else {
 				JOptionPane.showMessageDialog(null, "Falta alguma caixa");
 			}
-
+			
 			lblImcl.setText(cliente.getImc());
 			lblTmbL.setText(String.valueOf(cliente.getTmb()));
 			lblFcmL.setText(String.valueOf(cliente.getFcm()));
+			dao.salvar();
 		}
 		
 	}

@@ -23,11 +23,13 @@ private Cliente cliente;
 	}
 	public ClienteDAO(){}
 	
-	/*public Cliente getCliente(int codigoCliente) {
+	
+	
+	public Cliente getCliente(int codigoCliente) {
 		
 		try {
 			
-			String consulta ="SELECT * FROM cliente WHERE id = ?";
+			String consulta ="SELECT * FROM cliente WHERE codigoCliente=?";
 		
 			PreparedStatement stm =  Conexao.getConexao().prepareStatement(consulta);
 			stm.setInt(1, codigoCliente);
@@ -38,16 +40,17 @@ private Cliente cliente;
 			
 		if	(rs.next()) {
 			cliente = new Cliente();
+			this.cliente.setCodigoCliente(rs.getInt("codigoCliente"));
 			this.cliente.setNome(rs.getString("nome"));
-			this.cliente.setIdade(rs.getInt("dataNascimento"));
+			//this.cliente.setIdade(rs.getInt("dataNascimento"));
 			this.cliente.setPeso(rs.getDouble("peso"));
 			this.cliente.setAltura(rs.getDouble("altura"));
+			this.cliente.setSexo(rs.getString("sexo").charAt(0));
 			this.cliente.setLogradouro(rs.getString("logradouro"));
 			this.cliente.setBairro(rs.getString("bairro"));
 			this.cliente.setNivelAtividade(rs.getInt("nivelAtividade"));
 			this.cliente.setEmail(rs.getString("email"));
 			this.cliente.setCidade(rs.getString("cidade"));
-			this.cliente.setIdade(rs.getInt("dataNascimento"));
 			this.cliente.setTelefone(rs.getString("telefone"));
 			
 		} else {
@@ -59,20 +62,17 @@ private Cliente cliente;
 				erro.printStackTrace();
 		}
 		return cliente;
-	}*/
+	}
 	
 	
 	
-	
-	
-	
-/*	public ArrayList<Cliente> getFuncionarios() {
+	public ArrayList<Cliente> getClientes() {
 		
-		ArrayList<Cliente> cliente= new ArrayList<>();
+		ArrayList<Cliente> clientes= new ArrayList<>();
 
 		try {
 			
-			String consulta ="SELECT * FROM funcionario ORDER BY nome";
+			String consulta ="SELECT * FROM cliente ORDER BY codigoCliente";
 		
 			PreparedStatement stm =  Conexao.getConexao().prepareStatement(consulta);
 			
@@ -82,21 +82,28 @@ private Cliente cliente;
 			
 			while	(rs.next()) {
 				cliente = new Cliente();
+				this.cliente.setCodigoCliente(rs.getInt("codigoCliente"));
 				this.cliente.setNome(rs.getString("nome"));
+		//		this.cliente.setIdade(rs.getString("dataNacimento"));
+				this.cliente.setPeso(rs.getDouble("peso"));
+				this.cliente.setAltura(rs.getDouble("altura"));
+				this.cliente.setSexo(rs.getString("sexo").charAt(0));
+				this.cliente.setLogradouro(rs.getString("logradouro"));
+				this.cliente.setBairro(rs.getString("bairro"));
+				this.cliente.setNivelAtividade(rs.getInt("nivelAtividade"));
 				this.cliente.setEmail(rs.getString("email"));
 				this.cliente.setCidade(rs.getString("cidade"));
-				this.cliente.setUf(rs.getString("uf"));
-				this.cliente.setId(rs.getInt("id"));
+				this.cliente.setTelefone(rs.getString("telefone"));
 				
-				cliente.add(cliente);
+				clientes.add(cliente);
 			
 			}
 			
 		} catch(Exception erro) {
 				erro.printStackTrace();
 		}
-		return funcionarios;
-	}*/
+		return clientes;
+	}
 	
 	
 	
@@ -106,21 +113,22 @@ private Cliente cliente;
 	public void salvar(){
 		try {
 			
-			String sql ="INSERT INTO cliente (nome, peso, altura,"
-					+ " nivelAtividade, logradouro, bairro, cidade, telofone"
+			String sql ="INSERT INTO cliente (nome, peso, altura, sexo,"
+					+ " nivelAtividade, logradouro, bairro, cidade, telefone,"
 					+ "email ) "
-					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		
 			PreparedStatement stm =   Conexao.getConexao().prepareStatement(sql);
 			stm.setString(1, this.cliente.getNome());
-			stm.setDouble(2,  this.cliente.getPeso());
-			stm.setDouble(3,  this.cliente.getAltura());
-			stm.setInt(4,  this.cliente.getNivelAtividade());
-			stm.setString(5, this.cliente.getLogradouro());
-			stm.setString(6, this.cliente.getBairro());
-			stm.setString(7, this.cliente.getCidade());
-			stm.setString(8, this.cliente.getTelefone());
-			stm.setString(9, this.cliente.getEmail());
+			stm.setDouble(2, this.cliente.getPeso());
+			stm.setDouble(3, this.cliente.getAltura());
+			stm.setString(4, String.valueOf(this.cliente.getSexo()));
+			stm.setInt(5, this.cliente.getNivelAtividade());
+			stm.setString(6, this.cliente.getLogradouro());
+			stm.setString(7, this.cliente.getBairro());
+			stm.setString(8, this.cliente.getCidade());
+			stm.setString(9, this.cliente.getTelefone());
+			stm.setString(10, this.cliente.getEmail());
 			
 			if (!stm.execute()) {
 				JOptionPane.showMessageDialog(null, "Registro Gravado com Sucesso! ");
@@ -169,7 +177,7 @@ private Cliente cliente;
 	
 
 	
-	public void excluir() {
+	/*public void excluir() {
 		try {
 			
 			String sql ="DELETE FROM funcionario WHERE id=?";
@@ -186,6 +194,6 @@ private Cliente cliente;
 				erro.getMessage();
 		}
 		
-	}
+	}*/
 
 }
