@@ -146,6 +146,7 @@ public class FrmCliente extends JFrame {
 		panelClientes.add(btnDeletar);
 
 		JButton btnSair = new JButton("");
+		
 		btnSair.setIcon(new ImageIcon(FrmCliente.class.getResource("/br/senai/sp/cfp127/imagens/sair48.png")));
 		btnSair.setToolTipText("Sair");
 		btnSair.setBounds(471, 376, 89, 73);
@@ -388,6 +389,11 @@ public class FrmCliente extends JFrame {
 				limparCampos();
 			}
 		});
+		btnSair.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				System.exit(0);
+			}
+		});
 		
 		
 	
@@ -539,7 +545,6 @@ public class FrmCliente extends JFrame {
 				cliente.setSexo('F');
 			} else if (rdMasculino.isSelected()) {
 				cliente.setSexo('M');
-
 			} 
 			
 			cliente.setCodigoCliente(Integer.parseInt(txtCodigoCliente.getText()));
