@@ -66,6 +66,10 @@ private Cliente cliente;
 	
 	
 	
+	//*** DADOS DA TABELA
+	
+	
+	
 	public ArrayList<Cliente> getClientes() {
 		
 		ArrayList<Cliente> clientes= new ArrayList<>();
@@ -95,6 +99,7 @@ private Cliente cliente;
 				this.cliente.setCidade(rs.getString("cidade"));
 				this.cliente.setTelefone(rs.getString("telefone"));
 				
+				
 				clientes.add(cliente);
 			
 			}
@@ -107,7 +112,7 @@ private Cliente cliente;
 	
 	
 	
-	
+	///*** SALVAR
 	
 	
 	public void salvar(){
@@ -115,7 +120,7 @@ private Cliente cliente;
 			
 			String sql ="INSERT INTO cliente (nome, peso, altura, sexo,"
 					+ " nivelAtividade, logradouro, bairro, cidade, telefone,"
-					+ "email ) "
+					+ "email, ) "
 					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		
 			PreparedStatement stm =   Conexao.getConexao().prepareStatement(sql);
@@ -143,21 +148,29 @@ private Cliente cliente;
 	
 	
 	
+	//**********EDITAR
 	
 	
-	
-	/*public void atualizar() {
+	public void editar() {
 		try {
 			
 			
-			String sql ="UPDATE funcionario SET nome=?, email=?, cidade=?,uf=? 	WHERE id=? ";
+			String sql ="UPDATE cliente SET nome=?, peso=?,	altura=?, sexo=?, "
+					+ "nivelAtividade=?, logradouro=?, bairro=?, cidade=?, telefone=?,"
+					+ "email=? WHERE codigoCliente=? ";
 		
 			PreparedStatement stm =   Conexao.getConexao().prepareStatement(sql);
-			stm.setString(1, this.funcionario.getNome());
-			stm.setString(2, this.funcionario.getEmail());
-			stm.setString(3, this.funcionario.getCidade());
-			stm.setString(4, this.funcionario.getUf());
-			stm.setInt(5, this.funcionario.getId());
+			stm.setString(1, this.cliente.getNome());
+			stm.setDouble(2, this.cliente.getPeso());
+			stm.setDouble(3, this.cliente.getAltura());
+			stm.setString(4, String.valueOf(this.cliente.getSexo()));
+			stm.setInt(5, this.cliente.getNivelAtividade());
+			stm.setString(6, this.cliente.getLogradouro());
+			stm.setString(7, this.cliente.getBairro());
+			stm.setString(8, this.cliente.getCidade());
+			stm.setString(9, this.cliente.getTelefone());
+			stm.setString(10, this.cliente.getEmail());
+			stm.setInt(11, this.cliente.getCodigoCliente());
 			
 			if (!stm.execute()) {
 				JOptionPane.showMessageDialog(null, "Registro Atualizado com Sucesso! ");
@@ -169,18 +182,18 @@ private Cliente cliente;
 				erro.getMessage();
 		}
 		
-	}*/
+	}
 	
 	
 	
 	
 	
-
+		///***** EXCLUIR
 	
-	/*public void excluir() {
+	public void excluir() {
 		try {
 			
-			String sql ="DELETE FROM funcionario WHERE id=?";
+			String sql ="DELETE FROM cliente WHERE codigoCliente=?";
 			PreparedStatement stm = Conexao.getConexao().prepareStatement(sql);
 			stm.setInt(1, this.cliente.getCodigoCliente());
 			
@@ -194,6 +207,6 @@ private Cliente cliente;
 				erro.getMessage();
 		}
 		
-	}*/
+	}
 
 }

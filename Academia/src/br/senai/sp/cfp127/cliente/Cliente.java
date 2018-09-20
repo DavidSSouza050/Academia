@@ -3,6 +3,8 @@ package br.senai.sp.cfp127.cliente;
 import java.time.Instant;
 import java.time.LocalDate;
 
+import javax.swing.JOptionPane;
+
 public class Cliente {
 	
 	private String nome;
@@ -21,7 +23,7 @@ public class Cliente {
 	private String email;
 	
 	//Atributos derivados
-	private String imc;
+	private double imc;
 	private double tmb;
 	private double fcm;
 	
@@ -153,39 +155,22 @@ public class Cliente {
 	
 	
 	//** IMC
-	public String getImc() {
+	public  double getImc() {
 		
 		double imc = this.peso / Math.pow(this.altura, 2);
 		
 		if (imc < 16.6) {
-			this.imc = "Seu imc é " + imc + 
-					". Você está muito abaixo do peso!\n" +
-					"Riscos de Queda de cabelo, infertilidade," + 
-					"ausência menstrual.";
+			this.imc =  imc ;
 		}else if (imc < 18.5) {
-			this.imc = "Seu imc é " + imc + 
-					". Você está Abaixo do peso!\n" +
-					"Riscos de Fadiga, stress e ansiedade.";
+			this.imc = imc;
 		}else if (imc < 25.0) {
-			this.imc = "Seu imc é " + imc + 
-					". Você está no Peso normal! \n" +
-					"Menor risco de doenças cardíacas e vasculares.";
+			this.imc = imc;
 		}else if (imc < 30.0) {
-			this.imc = "Seu imc é " + imc + 
-					". Você está Acima do peso! \n" +
-					"Riscos de Fadiga, má circulação, varizes.";
+			this.imc =imc ;
 		}else if (imc < 34.9) {
-			this.imc = "Seu imc é " + imc + 
-					". Obesidade Grau I ! \n" +
-					"Riscos de Diabetes, angina, infarto, aterosclerose.";
+			this.imc =  imc ;
 		}else if (imc < 40.0) {
-			this.imc = "Seu imc é " + imc + 
-					". Obesidade Grau II ! \n" +
-					"Riscos de Apnei do sono, falta de ar.";
-		}else if (imc > 40.0) {
-			this.imc = "Seu imc é " + imc + 
-					". Obesidade Grau III !\n" +
-					"Riscos de Refluxo, dificuldade para se mover, escaras, diabetes, infarto, AVC.";
+			this.imc = imc ;
 		}else {
 			System.out.println("Não foi possivel determinar o seu IMC");
 		}
@@ -202,7 +187,10 @@ public class Cliente {
 		}else {
 			this.tmb = 665 + (9.6 * this.peso) + (1.8 * this.altura * 100)-(4.7 * this.idade);
 		}
-		if (this.nivelAtividade == 1) {
+		if(this.nivelAtividade == 0) {
+			JOptionPane.showMessageDialog(null, "selecione seu nivel de atividade" );
+		}
+		else if (this.nivelAtividade == 1) {
 			this.tmb = this.tmb * 1.2;
 		}else if(this.nivelAtividade == 2) {
 			this.tmb =  this.tmb * 1.37;
@@ -210,7 +198,7 @@ public class Cliente {
 			this.tmb =  this.tmb * 1.55;
 		}else if(this.nivelAtividade == 4) {
 			this.tmb =  this.tmb * 1.72;
-		}else if(this.nivelAtividade == 5) {
+		}else {
 			this.tmb =  this.tmb * 1.9;
 		}
 		

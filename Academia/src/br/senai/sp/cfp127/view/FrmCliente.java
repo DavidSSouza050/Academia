@@ -62,6 +62,9 @@ public class FrmCliente extends JFrame {
 	private JTextField txtLogra;
 	private JPanel panelClientes;
 	private JTable tableCliente;
+	private JButton btnEditar;
+	private JLabel lblId;
+	private JTextField txtCodigoCliente;
 
 	public FrmCliente() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(FrmCliente.class.getResource("/br/senai/sp/cfp127/imagens/gym32.png")));
@@ -97,7 +100,7 @@ public class FrmCliente extends JFrame {
 		// ** grupoRadio junto do sexo
 		ButtonGroup grupoRadio = new ButtonGroup();
 
-		String[] nivelAtividade = { "Sedentário", "Levemente Ativo", "Moderadamente ativo", "Bastante ativo",
+		String[] nivelAtividade = {"Selecione:", "Sedentário", "Levemente Ativo", "Moderadamente ativo", "Bastante ativo",
 				"Muito ativo" };
 		System.out.println(nivelAtividade[4]);
 		iconeCalc = new ImageIcon(FrmCliente.class.getResource("/br/senai/sp/cfp127/imagens/calc24.png"));
@@ -132,29 +135,20 @@ public class FrmCliente extends JFrame {
 		
 		btnNovo.setIcon(new ImageIcon(FrmCliente.class.getResource("/br/senai/sp/cfp127/imagens/novo64.png")));
 		btnNovo.setToolTipText("Novo\r\n");
-		btnNovo.setBounds(10, 376, 89, 73);
+		btnNovo.setBounds(50, 376, 89, 73);
 		panelClientes.add(btnNovo);
-
-		JButton btnEditar = new JButton("");
-		btnEditar.setIcon(new ImageIcon(FrmCliente.class.getResource("/br/senai/sp/cfp127/imagens/editar48.png")));
-		btnEditar.setToolTipText("Editar");
-		btnEditar.setBounds(142, 376, 89, 73);
-		panelClientes.add(btnEditar);
 
 		JButton btnDeletar = new JButton("");
 		btnDeletar.setIcon(new ImageIcon(FrmCliente.class.getResource("/br/senai/sp/cfp127/imagens/Deletar48.png")));
 		btnDeletar.setToolTipText("Deletar\r\n");
-		btnDeletar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
-		btnDeletar.setBounds(272, 376, 89, 73);
+		
+		btnDeletar.setBounds(242, 376, 89, 73);
 		panelClientes.add(btnDeletar);
 
 		JButton btnSair = new JButton("");
 		btnSair.setIcon(new ImageIcon(FrmCliente.class.getResource("/br/senai/sp/cfp127/imagens/sair48.png")));
 		btnSair.setToolTipText("Sair");
-		btnSair.setBounds(490, 376, 89, 73);
+		btnSair.setBounds(471, 376, 89, 73);
 		panelClientes.add(btnSair);
 
 		JPanel panel_1 = new JPanel();
@@ -200,10 +194,10 @@ public class FrmCliente extends JFrame {
 
 		// ** Idade
 		lblIdade = new JLabel("Data Nasc:");
-		lblIdade.setBounds(199, 40, 72, 20);
+		lblIdade.setBounds(277, 40, 72, 20);
 
 		txtIdade = new JTextField();
-		txtIdade.setBounds(199, 59, 72, 27);
+		txtIdade.setBounds(277, 61, 72, 27);
 
 		// Nivel de atividade
 
@@ -244,10 +238,29 @@ public class FrmCliente extends JFrame {
 		grupoRadio.add(rdMasculino);
 
 		btCalcular = new JButton("");
-		btCalcular.setBounds(184, 159, 170, 46);
+		btCalcular.setBounds(184, 170, 170, 46);
 		painelDados.add(btCalcular);
 		btCalcular.setToolTipText("Salvar");
 		btCalcular.setIcon(new ImageIcon(FrmCliente.class.getResource("/br/senai/sp/cfp127/imagens/Salvar32.png")));
+		
+		btnEditar = new JButton("");
+		
+		btnEditar.setIcon(new ImageIcon(FrmCliente.class.getResource("/br/senai/sp/cfp127/imagens/editar48.png")));
+		btnEditar.setToolTipText("Editar");
+		btnEditar.setBounds(450, 159, 89, 73);
+		painelDados.add(btnEditar);
+		
+		lblId = new JLabel("ID:");
+		lblId.setBounds(199, 43, 27, 14);
+		painelDados.add(lblId);
+		
+		txtCodigoCliente = new JTextField();
+		txtCodigoCliente.setBackground(new Color(255, 250, 205));
+		txtCodigoCliente.setEditable(false);
+		txtCodigoCliente.setText("\r\n");
+		txtCodigoCliente.setBounds(199, 59, 40, 30);
+		painelDados.add(txtCodigoCliente);
+		txtCodigoCliente.setColumns(10);
 
 		
 
@@ -343,25 +356,40 @@ public class FrmCliente extends JFrame {
 		
 		
 		//***Listeners
-		btCalcular.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				
-				criarCliente("Salvar");
-
-				
-			}
-		});
-		
 		btnNovo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				tabbedPane.setSelectedIndex(1);
 				limparCampos();
-	
+				cdAtividade.setSelectedIndex(0);
+				grupoRadio.clearSelection();
+				
 			}
 		});
 
+		btCalcular.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {	
+				criarCliente("Salvar");
+				limparCampos();
+			}
+		});
+		
+		btnEditar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				criarCliente("Editar");
+			}
+		});
+		btnDeletar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				int linha = tableCliente.getSelectedRow();
+				String a = tableCliente.getValueAt( linha, 0).toString();
+				exibirCliente(Integer.parseInt(a));
+				criarCliente("Excluir");
+				limparCampos();
+			}
+		});
+		
+		
 	
 		//***A tabela cliente Começa aqui
 		
@@ -388,7 +416,7 @@ public class FrmCliente extends JFrame {
 					@Override
 					public void mouseReleased(MouseEvent e) {
 						// TODO Auto-generated method stub
-						
+		      				
 					}
 					
 					@Override
@@ -411,17 +439,19 @@ public class FrmCliente extends JFrame {
 					
 					@Override
 					public void mouseClicked(MouseEvent e) {
-						int linha = tableCliente.getSelectedRow();
-						String codigoCliente = tableCliente.getValueAt(linha, 0).toString();
-						exibirCliente(Integer.parseInt(codigoCliente));
-						tabbedPane.setSelectedIndex(1);
-						
-
-						
+					//	if(e.getClickCount() == 2) {
+							int linha = tableCliente.getSelectedRow();
+							String codigoCliente = tableCliente.getValueAt(linha, 0).toString();
+							exibirCliente(Integer.parseInt(codigoCliente));
+							tabbedPane.setSelectedIndex(1);
+					////	}else {
+							
+						//}
+							
 					}
 				});
 				
-				
+
 				//***A tabela cliente termina aqui
 
 	}
@@ -430,6 +460,7 @@ public class FrmCliente extends JFrame {
 		
 		ClienteDAO dao = new ClienteDAO();
 		Cliente cliente = dao.getCliente(codigoCliente);
+		txtCodigoCliente.setText(String.valueOf(cliente.getCodigoCliente()));
 		txtNome.setText(cliente.getNome());
 		txtEmail.setText(cliente.getEmail());
 		txtPeso.setText(String.valueOf(cliente.getPeso()));
@@ -439,12 +470,19 @@ public class FrmCliente extends JFrame {
 		txtLogra.setText(cliente.getLogradouro());
 		txtBairro.setText(cliente.getBairro());
 		txtTelefone.setText(cliente.getTelefone());
+		cdAtividade.setSelectedIndex(cliente.getNivelAtividade());
 		
 		if(String.valueOf(cliente.getSexo()).equals("M")){
 			rdMasculino.setSelected(true);
 		}else if(String.valueOf(cliente.getSexo()).equals("F")){
 			rdFeminino.setSelected(true);
-		}else {}
+		}else {
+			System.out.println("Selecione o sexo");
+		}
+		
+		lblImcl.setText(String.valueOf(cliente.getImc()));
+		lblTmbL.setText(String.valueOf(cliente.getTmb()));
+		lblFcmL.setText(String.valueOf(cliente.getFcm()));
 		
 	}
 	private void limparCampos() {
@@ -457,17 +495,22 @@ public class FrmCliente extends JFrame {
 		txtLogra.setText("");
 		txtBairro.setText("");
 		txtTelefone.setText("");
+		txtCodigoCliente.setText("");
+		lblImcl.setText("...");
+		lblTmbL.setText("...");
+		lblFcmL.setText("...");
 		
 		
 	}
 	
 	private void criarCliente(String operacao) {
 		Cliente cliente = new Cliente();
+		
 		cliente.setNome(txtNome.getText());
 		cliente.setPeso(Double.parseDouble(txtPeso.getText()));
 		cliente.setAltura(Double.parseDouble(txtAltura.getText()));
 		cliente.setIdade(Integer.parseInt(txtIdade.getText()));
-		cliente.setNivelAtividade(cdAtividade.getSelectedIndex() + 1);
+		cliente.setNivelAtividade(cdAtividade.getSelectedIndex());
 		cliente.setLogradouro(txtLogra.getText());
 		cliente.setBairro(txtBairro.getText());
 		cliente.setCidade(txtCidade.getText());
@@ -486,10 +529,25 @@ public class FrmCliente extends JFrame {
 				JOptionPane.showMessageDialog(null, "Falta alguma caixa");
 			}
 			
-			lblImcl.setText(cliente.getImc());
+			lblImcl.setText(String.valueOf(cliente.getImc()));
 			lblTmbL.setText(String.valueOf(cliente.getTmb()));
 			lblFcmL.setText(String.valueOf(cliente.getFcm()));
 			dao.salvar();
+		}else if (operacao.equals("Editar")) {
+			
+			if (rdFeminino.isSelected()) {
+				cliente.setSexo('F');
+			} else if (rdMasculino.isSelected()) {
+				cliente.setSexo('M');
+
+			} 
+			
+			cliente.setCodigoCliente(Integer.parseInt(txtCodigoCliente.getText()));
+			dao.editar();
+	
+		}else {
+			cliente.setCodigoCliente(Integer.parseInt(txtCodigoCliente.getText()));
+			dao.excluir();
 		}
 		
 	}
