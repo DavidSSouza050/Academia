@@ -32,7 +32,6 @@ public class FuncionarioDAO {
 		
 			PreparedStatement stm =  Conexao.getConexao().prepareStatement(consulta);
 			stm.setInt(1, id);
-			
 			ResultSet rs ;
 			
 			rs = stm.executeQuery();

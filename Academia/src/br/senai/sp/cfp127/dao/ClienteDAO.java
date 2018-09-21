@@ -3,6 +3,7 @@ package br.senai.sp.cfp127.dao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.swing.JOptionPane;
 import javax.swing.plaf.basic.BasicBorders.RadioButtonBorder;
@@ -10,6 +11,7 @@ import javax.swing.plaf.basic.BasicBorders.RadioButtonBorder;
 import br.senai.sp.cfp127.cliente.Cliente;
 import br.senai.sp.cfp127.dbutils.Conexao;
 import br.senai.sp.cfp127.modelo.Funcionario;
+import br.senai.sp.cfp127.utils.Data;
 
 public class ClienteDAO {
 private Cliente cliente;
@@ -52,6 +54,9 @@ private Cliente cliente;
 			this.cliente.setEmail(rs.getString("email"));
 			this.cliente.setCidade(rs.getString("cidade"));
 			this.cliente.setTelefone(rs.getString("telefone"));
+			this.cliente.setDtNascimento(rs.getDate("dataNacimento"));
+			this.cliente.setIdade((Data.calcularIdade(new Date(), cliente.getDtNascimento())));
+			
 			
 		} else {
 
@@ -88,7 +93,9 @@ private Cliente cliente;
 				cliente = new Cliente();
 				this.cliente.setCodigoCliente(rs.getInt("codigoCliente"));
 				this.cliente.setNome(rs.getString("nome"));
-		//		this.cliente.setIdade(rs.getString("dataNacimento"));
+				
+				//this.cliente.setdataNacimento(rs.getString("dataNacimento"));
+				
 				this.cliente.setPeso(rs.getDouble("peso"));
 				this.cliente.setAltura(rs.getDouble("altura"));
 				this.cliente.setSexo(rs.getString("sexo").charAt(0));

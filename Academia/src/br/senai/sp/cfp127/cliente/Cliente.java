@@ -2,12 +2,14 @@ package br.senai.sp.cfp127.cliente;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.Date;
 
 import javax.swing.JOptionPane;
 
 public class Cliente {
 	
 	private String nome;
+	private Date dtNascimento;
 	private int idade;
 	private double peso;
 	private double altura;
@@ -60,14 +62,14 @@ public class Cliente {
 		this.codigoCliente = codigoCliente;
 	}
 
-	//** IDADE
-	public int getIdade() {
+	//** Data de nacimento
+	public Date getDtNascimento() {
 	
-		return idade;
+		return dtNascimento;
 	}
 	
-	public void setIdade(int idade) {
-		this.idade = idade;
+	public void setDtNascimento(Date dtNascimento) {
+		this.dtNascimento = dtNascimento;
 	}
 	
 	//** PESO
@@ -103,6 +105,13 @@ public class Cliente {
 		return nivelAtividade;
 	}
 
+	///***** IDADE	
+	public int getIdade() {
+		return idade;
+	}
+	public void setIdade(int idade) {
+		this.idade = idade;
+	}
 	public void setNivelAtividade(int nivelAtividade) {
 		this.nivelAtividade = nivelAtividade;
 	}

@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Set;
 
@@ -14,6 +16,7 @@ import javax.swing.border.TitledBorder;
 
 import br.senai.sp.cfp127.cliente.Cliente;
 import br.senai.sp.cfp127.dao.ClienteDAO;
+import br.senai.sp.cfp127.utils.Data;
 
 import java.awt.TextArea;
 import java.awt.Toolkit;
@@ -31,11 +34,11 @@ public class FrmCliente extends JFrame {
 	private TitledBorder bordaResultado;
 
 	// Declaracoes dos labels da tela
-	private JLabel lblTitulo, lblIcone, lblNome, lblPeso, lblAltura, lblIdade, lblNivelAtiv, lblImc,
+	private JLabel lblTitulo, lblIcone, lblNome, lblPeso, lblAltura, lblDataNasc, lblNivelAtiv, lblImc,
 			lblTmb, lblTmbL, lblFcm, lblFcmL;
 
 	// Declaração dos campos de texto
-	private JTextField txtNome, txtPeso, txtAltura, txtIdade;
+	private JTextField txtNome, txtPeso, txtAltura, txtDtNascimento;
 
 	// Declaração Dos Rádios
 	private JRadioButton rdFeminino, rdMasculino;
@@ -65,6 +68,9 @@ public class FrmCliente extends JFrame {
 	private JButton btnEditar;
 	private JLabel lblId;
 	private JTextField txtCodigoCliente;
+	private JTextField txtIdade;
+	
+	private int atualizar = 0;
 
 	public FrmCliente() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(FrmCliente.class.getResource("/br/senai/sp/cfp127/imagens/gym32.png")));
@@ -135,14 +141,14 @@ public class FrmCliente extends JFrame {
 		
 		btnNovo.setIcon(new ImageIcon(FrmCliente.class.getResource("/br/senai/sp/cfp127/imagens/novo64.png")));
 		btnNovo.setToolTipText("Novo\r\n");
-		btnNovo.setBounds(50, 376, 89, 73);
+		btnNovo.setBounds(30, 376, 89, 73);
 		panelClientes.add(btnNovo);
 
 		JButton btnDeletar = new JButton("");
 		btnDeletar.setIcon(new ImageIcon(FrmCliente.class.getResource("/br/senai/sp/cfp127/imagens/Deletar48.png")));
 		btnDeletar.setToolTipText("Deletar\r\n");
 		
-		btnDeletar.setBounds(242, 376, 89, 73);
+		btnDeletar.setBounds(298, 376, 89, 73);
 		panelClientes.add(btnDeletar);
 
 		JButton btnSair = new JButton("");
@@ -194,11 +200,11 @@ public class FrmCliente extends JFrame {
 		txtAltura.setBounds(93, 118, 60, 25);
 
 		// ** Idade
-		lblIdade = new JLabel("Data Nasc:");
-		lblIdade.setBounds(277, 40, 72, 20);
+		lblDataNasc = new JLabel("Data Nasc:");
+		lblDataNasc.setBounds(249, 40, 58, 20);
 
-		txtIdade = new JTextField();
-		txtIdade.setBounds(277, 61, 72, 27);
+		txtDtNascimento = new JTextField();
+		txtDtNascimento.setBounds(249, 61, 77, 27);
 
 		// Nivel de atividade
 
@@ -216,13 +222,13 @@ public class FrmCliente extends JFrame {
 		painelDados.add(txtAltura);
 		painelDados.add(lblNivelAtiv);
 		painelDados.add(cdAtividade);
-		painelDados.add(lblIdade);
-		painelDados.add(txtIdade);
+		painelDados.add(lblDataNasc);
+		painelDados.add(txtDtNascimento);
 
 		panelSexo = new JPanel();
 		panelSexo.setBorder(new TitledBorder(null, "Sexo", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panelSexo.setBackground(new Color(240, 240, 240));
-		panelSexo.setBounds(411, 43, 100, 92);
+		panelSexo.setBounds(407, 43, 100, 92);
 		painelDados.add(panelSexo);
 		panelSexo.setLayout(null);
 
@@ -244,13 +250,6 @@ public class FrmCliente extends JFrame {
 		btCalcular.setToolTipText("Salvar");
 		btCalcular.setIcon(new ImageIcon(FrmCliente.class.getResource("/br/senai/sp/cfp127/imagens/Salvar32.png")));
 		
-		btnEditar = new JButton("");
-		
-		btnEditar.setIcon(new ImageIcon(FrmCliente.class.getResource("/br/senai/sp/cfp127/imagens/editar48.png")));
-		btnEditar.setToolTipText("Editar");
-		btnEditar.setBounds(450, 159, 89, 73);
-		painelDados.add(btnEditar);
-		
 		lblId = new JLabel("ID:");
 		lblId.setBounds(199, 43, 27, 14);
 		painelDados.add(lblId);
@@ -262,6 +261,15 @@ public class FrmCliente extends JFrame {
 		txtCodigoCliente.setBounds(199, 59, 40, 30);
 		painelDados.add(txtCodigoCliente);
 		txtCodigoCliente.setColumns(10);
+		
+		JLabel lblIdade_1 = new JLabel("Idade:");
+		lblIdade_1.setBounds(338, 43, 46, 14);
+		painelDados.add(lblIdade_1);
+		
+		txtIdade = new JTextField();
+		txtIdade.setBounds(336, 59, 34, 30);
+		painelDados.add(txtIdade);
+		txtIdade.setColumns(10);
 
 		
 
@@ -364,20 +372,32 @@ public class FrmCliente extends JFrame {
 				cdAtividade.setSelectedIndex(0);
 				grupoRadio.clearSelection();
 				
-			}
+			} 
 		});
 
 		btCalcular.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent e) {	
-				criarCliente("Salvar");
-				limparCampos();
+				if (atualizar == 0) {
+					criarCliente("Salvar");
+					limparCampos();
+				}else if(atualizar == 1){
+					criarCliente("Editar");
+					limparCampos();
+					
+				}
+				atualizar =  0;
 			}
 		});
 		
 		btnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				criarCliente("Editar");
+				
+					int linha = tableCliente.getSelectedRow();
+					String a = tableCliente.getValueAt(linha, 0).toString();
+					exibirCliente(Integer.parseInt(a));
+					tabbedPane.setSelectedIndex(1);
+					
+				 
 			}
 		});
 		btnDeletar.addActionListener(new ActionListener() {
@@ -389,6 +409,7 @@ public class FrmCliente extends JFrame {
 				limparCampos();
 			}
 		});
+		
 		btnSair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				System.exit(0);
@@ -416,6 +437,15 @@ public class FrmCliente extends JFrame {
 				tableCliente = new JTable(linhas, colunas);
 				
 				scrollTabela.setViewportView(tableCliente);
+				
+				btnEditar = new JButton("");
+				btnEditar.setBounds(158, 376, 89, 73);
+				panelClientes.add(btnEditar);
+				
+				btnEditar.setIcon(new ImageIcon(FrmCliente.class.getResource("/br/senai/sp/cfp127/imagens/editar48.png")));
+				btnEditar.setToolTipText("Editar");
+				
+				
 				
 				tableCliente.addMouseListener(new MouseListener() {
 					
@@ -471,12 +501,15 @@ public class FrmCliente extends JFrame {
 		txtEmail.setText(cliente.getEmail());
 		txtPeso.setText(String.valueOf(cliente.getPeso()));
 		txtAltura.setText(String.valueOf(cliente.getAltura()));
-		txtIdade.setText(String.valueOf(cliente.getIdade()));
 		txtCidade.setText(cliente.getCidade());
 		txtLogra.setText(cliente.getLogradouro());
 		txtBairro.setText(cliente.getBairro());
 		txtTelefone.setText(cliente.getTelefone());
 		cdAtividade.setSelectedIndex(cliente.getNivelAtividade());
+		txtIdade.setText(String.valueOf(cliente.getIdade()));
+		
+		txtDtNascimento.setText(Data.converterParaPortugues(cliente.getDtNascimento()));
+		
 		
 		if(String.valueOf(cliente.getSexo()).equals("M")){
 			rdMasculino.setSelected(true);
@@ -496,7 +529,7 @@ public class FrmCliente extends JFrame {
 		txtEmail.setText("");
 		txtPeso.setText("");
 		txtAltura.setText("");
-		txtIdade.setText("");
+		txtDtNascimento.setText("");
 		txtCidade.setText("");
 		txtLogra.setText("");
 		txtBairro.setText("");
@@ -515,7 +548,7 @@ public class FrmCliente extends JFrame {
 		cliente.setNome(txtNome.getText());
 		cliente.setPeso(Double.parseDouble(txtPeso.getText()));
 		cliente.setAltura(Double.parseDouble(txtAltura.getText()));
-		cliente.setIdade(Integer.parseInt(txtIdade.getText()));
+		//cliente.setIdade(Integer.parseInt(txtIdade.getText()));
 		cliente.setNivelAtividade(cdAtividade.getSelectedIndex());
 		cliente.setLogradouro(txtLogra.getText());
 		cliente.setBairro(txtBairro.getText());
