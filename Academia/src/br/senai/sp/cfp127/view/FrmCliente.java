@@ -13,6 +13,7 @@ import java.util.Set;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
+import javax.swing.plaf.basic.BasicBorders.RadioButtonBorder;
 
 import br.senai.sp.cfp127.cliente.Cliente;
 import br.senai.sp.cfp127.dao.ClienteDAO;
@@ -361,6 +362,12 @@ public class FrmCliente extends JFrame {
 		lblImcl = new JLabel("...");
 		lblImcl.setBounds(67, 44, 76, 20);
 		panelRsultCliente.add(lblImcl);
+		btnEditar = new JButton("");	
+		btnEditar.setBounds(158, 376, 89, 73);
+		panelClientes.add(btnEditar);
+
+		btnEditar.setIcon(new ImageIcon(FrmCliente.class.getResource("/br/senai/sp/cfp127/imagens/editar48.png")));
+		btnEditar.setToolTipText("Editar");
 		
 		
 		
@@ -369,7 +376,6 @@ public class FrmCliente extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				tabbedPane.setSelectedIndex(1);
 				limparCampos();
-				cdAtividade.setSelectedIndex(0);
 				grupoRadio.clearSelection();
 				
 			} 
@@ -378,35 +384,43 @@ public class FrmCliente extends JFrame {
 		btCalcular.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {	
 				if (atualizar == 0) {
+					System.out.println("aaa");
 					criarCliente("Salvar");
+					grupoRadio.clearSelection();
 					limparCampos();
 				}else if(atualizar == 1){
+					System.out.println("aaab");
 					criarCliente("Editar");
+					grupoRadio.clearSelection();
 					limparCampos();
-					
+					atualizar =  0;
 				}
-				atualizar =  0;
+				
 			}
 		});
 		
 		btnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
-					int linha = tableCliente.getSelectedRow();
-					String a = tableCliente.getValueAt(linha, 0).toString();
-					exibirCliente(Integer.parseInt(a));
-					tabbedPane.setSelectedIndex(1);
-					
-				 
-			}
-		});
+			int linha = tableCliente.getSelectedRow();
+			String a = tableCliente.getValueAt(linha, 0).toString();
+			exibirCliente(Integer.parseInt(a));
+			tabbedPane.setSelectedIndex(1);	
+			atualizar = 1;
+		}
+	});
+		
+
+		
 		btnDeletar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				int linha = tableCliente.getSelectedRow();
-				String a = tableCliente.getValueAt( linha, 0).toString();
-				exibirCliente(Integer.parseInt(a));
-				criarCliente("Excluir");
-				limparCampos();
+			int resp = JOptionPane.showConfirmDialog(null, "Tem certeza que quer deletar", "Excluir cliente", JOptionPane.YES_NO_OPTION);
+				if(resp == 0) {
+					int linha = tableCliente.getSelectedRow();
+					String a = tableCliente.getValueAt( linha, 0).toString();
+					exibirCliente(Integer.parseInt(a));
+					criarCliente("Excluir");
+					limparCampos();
+				}
 			}
 		});
 		
@@ -435,18 +449,8 @@ public class FrmCliente extends JFrame {
 				};
 				
 				tableCliente = new JTable(linhas, colunas);
-				
 				scrollTabela.setViewportView(tableCliente);
-				
-				btnEditar = new JButton("");
-				btnEditar.setBounds(158, 376, 89, 73);
-				panelClientes.add(btnEditar);
-				
-				btnEditar.setIcon(new ImageIcon(FrmCliente.class.getResource("/br/senai/sp/cfp127/imagens/editar48.png")));
-				btnEditar.setToolTipText("Editar");
-				
-				
-				
+				tableCliente.setDefaultEditor(Object.class, null);
 				tableCliente.addMouseListener(new MouseListener() {
 					
 					@Override
@@ -475,14 +479,14 @@ public class FrmCliente extends JFrame {
 					
 					@Override
 					public void mouseClicked(MouseEvent e) {
-					//	if(e.getClickCount() == 2) {
+						if(e.getClickCount() == 2) {
 							int linha = tableCliente.getSelectedRow();
 							String codigoCliente = tableCliente.getValueAt(linha, 0).toString();
 							exibirCliente(Integer.parseInt(codigoCliente));
 							tabbedPane.setSelectedIndex(1);
-					////	}else {
+						}else {
 							
-						//}
+						}
 							
 					}
 				});
@@ -535,10 +539,12 @@ public class FrmCliente extends JFrame {
 		txtBairro.setText("");
 		txtTelefone.setText("");
 		txtCodigoCliente.setText("");
+		cdAtividade.setSelectedIndex(0);
+		txtIdade.setText("");
 		lblImcl.setText("...");
 		lblTmbL.setText("...");
 		lblFcmL.setText("...");
-		
+	
 		
 	}
 	
@@ -558,7 +564,6 @@ public class FrmCliente extends JFrame {
 		
 		ClienteDAO dao = new ClienteDAO(cliente);
 		if(operacao.equals("Salvar")) {
-			
 			if (rdFeminino.isSelected()) {
 				cliente.setSexo('F');
 			} else if (rdMasculino.isSelected()) {
@@ -573,7 +578,8 @@ public class FrmCliente extends JFrame {
 			lblFcmL.setText(String.valueOf(cliente.getFcm()));
 			dao.salvar();
 		}else if (operacao.equals("Editar")) {
-			
+			int linha = tableCliente.getSelectedRow();
+			int codigo = Integer.parseInt(tableCliente.getValueAt(linha, 0).toString());
 			if (rdFeminino.isSelected()) {
 				cliente.setSexo('F');
 			} else if (rdMasculino.isSelected()) {
@@ -581,12 +587,12 @@ public class FrmCliente extends JFrame {
 			} 
 			
 			cliente.setCodigoCliente(Integer.parseInt(txtCodigoCliente.getText()));
-			dao.editar();
+			dao.editar(codigo);
 	
 		}else {
-			cliente.setCodigoCliente(Integer.parseInt(txtCodigoCliente.getText()));
-			dao.excluir();
-		}
+				cliente.setCodigoCliente(Integer.parseInt(txtCodigoCliente.getText()));
+				dao.excluir();
+		}	
 		
 	}
 }

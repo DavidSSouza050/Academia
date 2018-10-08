@@ -127,7 +127,7 @@ private Cliente cliente;
 			
 			String sql ="INSERT INTO cliente (nome, peso, altura, sexo,"
 					+ " nivelAtividade, logradouro, bairro, cidade, telefone,"
-					+ "email, ) "
+					+ "email) "
 					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		
 			PreparedStatement stm =   Conexao.getConexao().prepareStatement(sql);
@@ -158,10 +158,9 @@ private Cliente cliente;
 	//**********EDITAR
 	
 	
-	public void editar() {
+	public void editar(int codigo) {
 		try {
-			
-			
+
 			String sql ="UPDATE cliente SET nome=?, peso=?,	altura=?, sexo=?, "
 					+ "nivelAtividade=?, logradouro=?, bairro=?, cidade=?, telefone=?,"
 					+ "email=? WHERE codigoCliente=? ";
@@ -177,7 +176,7 @@ private Cliente cliente;
 			stm.setString(8, this.cliente.getCidade());
 			stm.setString(9, this.cliente.getTelefone());
 			stm.setString(10, this.cliente.getEmail());
-			stm.setInt(11, this.cliente.getCodigoCliente());
+			stm.setInt(11, codigo);
 			
 			if (!stm.execute()) {
 				JOptionPane.showMessageDialog(null, "Registro Atualizado com Sucesso! ");
@@ -192,8 +191,7 @@ private Cliente cliente;
 	}
 	
 	
-	
-	
+
 	
 		///***** EXCLUIR
 	
