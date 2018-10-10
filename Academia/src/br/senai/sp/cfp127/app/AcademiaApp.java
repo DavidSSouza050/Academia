@@ -44,7 +44,7 @@ public class AcademiaApp {
 		janela.setVisible(true);
 		//FrmFuncionario Funcionario = new FrmFuncionario();
 		
-		Data.converterParaAccess("21/09/2018");
+		//Data.converterParaAccess("21/09/2018");
 		
 		
 	}

@@ -54,8 +54,8 @@ private Cliente cliente;
 			this.cliente.setEmail(rs.getString("email"));
 			this.cliente.setCidade(rs.getString("cidade"));
 			this.cliente.setTelefone(rs.getString("telefone"));
-			this.cliente.setDtNascimento(rs.getDate("dataNacimento"));
-			this.cliente.setIdade((Data.calcularIdade(new Date(), cliente.getDtNascimento())));
+			this.cliente.setDtNascimento(Data.converterParaPortugues(rs.getDate("dataNacimento")));
+			this.cliente.setIdade(Data.calcularIdade(new Date(),Data.converteParaDate(cliente.getDtNascimento())));
 			
 			
 		} else {
@@ -105,8 +105,7 @@ private Cliente cliente;
 				this.cliente.setEmail(rs.getString("email"));
 				this.cliente.setCidade(rs.getString("cidade"));
 				this.cliente.setTelefone(rs.getString("telefone"));
-				
-				
+
 				clientes.add(cliente);
 			
 			}
@@ -125,22 +124,23 @@ private Cliente cliente;
 	public void salvar(){
 		try {
 			
-			String sql ="INSERT INTO cliente (nome, peso, altura, sexo,"
+			String sql ="INSERT INTO cliente (nome, dataNacimento, peso, altura, sexo,"
 					+ " nivelAtividade, logradouro, bairro, cidade, telefone,"
 					+ "email) "
-					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		
 			PreparedStatement stm =   Conexao.getConexao().prepareStatement(sql);
 			stm.setString(1, this.cliente.getNome());
-			stm.setDouble(2, this.cliente.getPeso());
-			stm.setDouble(3, this.cliente.getAltura());
-			stm.setString(4, String.valueOf(this.cliente.getSexo()));
-			stm.setInt(5, this.cliente.getNivelAtividade());
-			stm.setString(6, this.cliente.getLogradouro());
-			stm.setString(7, this.cliente.getBairro());
-			stm.setString(8, this.cliente.getCidade());
-			stm.setString(9, this.cliente.getTelefone());
-			stm.setString(10, this.cliente.getEmail());
+			stm.setString(2, Data.converterParaAccess(this.cliente.getDtNascimento()));
+			stm.setDouble(3, this.cliente.getPeso());
+			stm.setDouble(4, this.cliente.getAltura());
+			stm.setString(5, String.valueOf(this.cliente.getSexo()));
+			stm.setInt(6, this.cliente.getNivelAtividade());
+			stm.setString(7, this.cliente.getLogradouro());
+			stm.setString(8, this.cliente.getBairro());
+			stm.setString(9, this.cliente.getCidade());
+			stm.setString(10, this.cliente.getTelefone());
+			stm.setString(11, this.cliente.getEmail());
 			
 			if (!stm.execute()) {
 				JOptionPane.showMessageDialog(null, "Registro Gravado com Sucesso! ");
@@ -161,22 +161,23 @@ private Cliente cliente;
 	public void editar(int codigo) {
 		try {
 
-			String sql ="UPDATE cliente SET nome=?, peso=?,	altura=?, sexo=?, "
+			String sql ="UPDATE cliente SET nome=?, dataNacimento=?, peso=?,	altura=?, sexo=?, "
 					+ "nivelAtividade=?, logradouro=?, bairro=?, cidade=?, telefone=?,"
 					+ "email=? WHERE codigoCliente=? ";
 		
 			PreparedStatement stm =   Conexao.getConexao().prepareStatement(sql);
 			stm.setString(1, this.cliente.getNome());
-			stm.setDouble(2, this.cliente.getPeso());
-			stm.setDouble(3, this.cliente.getAltura());
-			stm.setString(4, String.valueOf(this.cliente.getSexo()));
-			stm.setInt(5, this.cliente.getNivelAtividade());
-			stm.setString(6, this.cliente.getLogradouro());
-			stm.setString(7, this.cliente.getBairro());
-			stm.setString(8, this.cliente.getCidade());
-			stm.setString(9, this.cliente.getTelefone());
-			stm.setString(10, this.cliente.getEmail());
-			stm.setInt(11, codigo);
+			stm.setString(2, this.cliente.getDtNascimento());
+			stm.setDouble(3, this.cliente.getPeso());
+			stm.setDouble(4, this.cliente.getAltura());
+			stm.setString(5, String.valueOf(this.cliente.getSexo()));
+			stm.setInt(6, this.cliente.getNivelAtividade());
+			stm.setString(7, this.cliente.getLogradouro());
+			stm.setString(8, this.cliente.getBairro());
+			stm.setString(9, this.cliente.getCidade());
+			stm.setString(10, this.cliente.getTelefone());
+			stm.setString(11, this.cliente.getEmail());
+			stm.setInt(12, codigo);
 			
 			if (!stm.execute()) {
 				JOptionPane.showMessageDialog(null, "Registro Atualizado com Sucesso! ");

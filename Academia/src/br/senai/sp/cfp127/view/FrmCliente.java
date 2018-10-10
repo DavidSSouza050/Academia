@@ -36,7 +36,7 @@ public class FrmCliente extends JFrame {
 
 	// Declaracoes dos labels da tela
 	private JLabel lblTitulo, lblIcone, lblNome, lblPeso, lblAltura, lblDataNasc, lblNivelAtiv, lblImc,
-			lblTmb, lblTmbL, lblFcm, lblFcmL;
+			lblTmb, lblTmbL, lblFcm, lblFcmL, lblNovo2;
 
 	// Declaração dos campos de texto
 	private JTextField txtNome, txtPeso, txtAltura, txtDtNascimento;
@@ -70,6 +70,8 @@ public class FrmCliente extends JFrame {
 	private JLabel lblId;
 	private JTextField txtCodigoCliente;
 	private JTextField txtIdade;
+	private JScrollPane scrollTabela;
+	private JTabbedPane tabbedPane;
 	
 	private int atualizar = 0;
 
@@ -84,7 +86,7 @@ public class FrmCliente extends JFrame {
 
 		// ** LABEL Titulo
 		lblTitulo = new JLabel("Academia boa forma");
-		lblTitulo.setBounds(50, 10, 300, 30);
+		lblTitulo.setBounds(44, 15, 300, 30);
 		lblTitulo.setFont(minhaFonte);
 
 		// ** Label Icone
@@ -115,8 +117,14 @@ public class FrmCliente extends JFrame {
 		bordaResultado.setTitleColor(preto);
 
 		getContentPane().add(painelTitulo);
+		
+		lblNovo2 = new JLabel("");
+		lblNovo2.setFont(new Font("Tahoma", Font.BOLD, 26));
+		lblNovo2.setForeground(new Color(220, 20, 60));
+		lblNovo2.setBounds(307, 15, 239, 25);
+		painelTitulo.add(lblNovo2);
 
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.setBounds(0, 50, 594, 521);
 		getContentPane().add(tabbedPane);
 
@@ -132,7 +140,7 @@ public class FrmCliente extends JFrame {
 		panel.add(panelClientes);
 		panelClientes.setLayout(null);
 
-		JScrollPane scrollTabela = new JScrollPane();
+		scrollTabela = new JScrollPane();
 		scrollTabela.setBounds(10, 22, 569, 249);
 		panelClientes.add(scrollTabela);
 
@@ -142,21 +150,21 @@ public class FrmCliente extends JFrame {
 		
 		btnNovo.setIcon(new ImageIcon(FrmCliente.class.getResource("/br/senai/sp/cfp127/imagens/novo64.png")));
 		btnNovo.setToolTipText("Novo\r\n");
-		btnNovo.setBounds(30, 376, 89, 73);
+		btnNovo.setBounds(40, 376, 89, 73);
 		panelClientes.add(btnNovo);
 
 		JButton btnDeletar = new JButton("");
 		btnDeletar.setIcon(new ImageIcon(FrmCliente.class.getResource("/br/senai/sp/cfp127/imagens/Deletar48.png")));
 		btnDeletar.setToolTipText("Deletar\r\n");
 		
-		btnDeletar.setBounds(298, 376, 89, 73);
+		btnDeletar.setBounds(319, 376, 89, 73);
 		panelClientes.add(btnDeletar);
 
 		JButton btnSair = new JButton("");
 		
 		btnSair.setIcon(new ImageIcon(FrmCliente.class.getResource("/br/senai/sp/cfp127/imagens/sair48.png")));
 		btnSair.setToolTipText("Sair");
-		btnSair.setBounds(471, 376, 89, 73);
+		btnSair.setBounds(490, 376, 89, 73);
 		panelClientes.add(btnSair);
 
 		JPanel panel_1 = new JPanel();
@@ -202,7 +210,7 @@ public class FrmCliente extends JFrame {
 
 		// ** Idade
 		lblDataNasc = new JLabel("Data Nasc:");
-		lblDataNasc.setBounds(249, 40, 58, 20);
+		lblDataNasc.setBounds(249, 40, 77, 20);
 
 		txtDtNascimento = new JTextField();
 		txtDtNascimento.setBounds(249, 61, 77, 27);
@@ -268,9 +276,18 @@ public class FrmCliente extends JFrame {
 		painelDados.add(lblIdade_1);
 		
 		txtIdade = new JTextField();
+		txtIdade.setBackground(new Color(255, 255, 255));
+		txtIdade.setEditable(false);
 		txtIdade.setBounds(336, 59, 34, 30);
 		painelDados.add(txtIdade);
 		txtIdade.setColumns(10);
+		
+		JButton btnNovo2 = new JButton("");
+		
+		btnNovo2.setIcon(new ImageIcon(FrmCliente.class.getResource("/br/senai/sp/cfp127/imagens/novo32.png")));
+		btnNovo2.setToolTipText("Novo Cliente");
+		btnNovo2.setBounds(442, 170, 65, 46);
+		painelDados.add(btnNovo2);
 
 		
 
@@ -363,7 +380,7 @@ public class FrmCliente extends JFrame {
 		lblImcl.setBounds(67, 44, 76, 20);
 		panelRsultCliente.add(lblImcl);
 		btnEditar = new JButton("");	
-		btnEditar.setBounds(158, 376, 89, 73);
+		btnEditar.setBounds(176, 376, 89, 73);
 		panelClientes.add(btnEditar);
 
 		btnEditar.setIcon(new ImageIcon(FrmCliente.class.getResource("/br/senai/sp/cfp127/imagens/editar48.png")));
@@ -371,128 +388,88 @@ public class FrmCliente extends JFrame {
 		
 		
 		
-		//***Listeners
-		btnNovo.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				tabbedPane.setSelectedIndex(1);
-				limparCampos();
-				grupoRadio.clearSelection();
-				
-			} 
-		});
-
-		btCalcular.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {	
-				if (atualizar == 0) {
-					System.out.println("aaa");
-					criarCliente("Salvar");
-					grupoRadio.clearSelection();
-					limparCampos();
-				}else if(atualizar == 1){
-					System.out.println("aaab");
-					criarCliente("Editar");
-					grupoRadio.clearSelection();
-					limparCampos();
-					atualizar =  0;
-				}
-				
-			}
-		});
-		
-		btnEditar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			int linha = tableCliente.getSelectedRow();
-			String a = tableCliente.getValueAt(linha, 0).toString();
-			exibirCliente(Integer.parseInt(a));
-			tabbedPane.setSelectedIndex(1);	
-			atualizar = 1;
-		}
-	});
-		
-
-		
-		btnDeletar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			int resp = JOptionPane.showConfirmDialog(null, "Tem certeza que quer deletar", "Excluir cliente", JOptionPane.YES_NO_OPTION);
-				if(resp == 0) {
-					int linha = tableCliente.getSelectedRow();
-					String a = tableCliente.getValueAt( linha, 0).toString();
-					exibirCliente(Integer.parseInt(a));
-					criarCliente("Excluir");
-					limparCampos();
-				}
-			}
-		});
-		
-		btnSair.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				System.exit(0);
-			}
-		});
-		
 		
 	
 		//***A tabela cliente Começa aqui
 		
-				ClienteDAO dao = new ClienteDAO();
-				ArrayList<Cliente> clientes = dao.getClientes();
+				atualizarTabela();
+
+		//***A tabela cliente termina aqui
 				
-				String[] colunas = {"Codigo","Nome do Cliente", "Email"};
-				
-				String[][] linhas= new String[dao.getClientes().size()][3];
-				
-				for (int i=0; i < dao.getClientes().size(); i++) {
-					linhas[i][0] = String.valueOf(dao.getClientes().get(i).getCodigoCliente());
-					linhas[i][1] = dao.getClientes().get(i).getNome();
-					linhas[i][2] =  dao.getClientes().get(i).getEmail();
-					
-				};
-				
-				tableCliente = new JTable(linhas, colunas);
-				scrollTabela.setViewportView(tableCliente);
-				tableCliente.setDefaultEditor(Object.class, null);
-				tableCliente.addMouseListener(new MouseListener() {
-					
-					@Override
-					public void mouseReleased(MouseEvent e) {
-						// TODO Auto-generated method stub
-		      				
+				//***Listeners
+				btnNovo.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						tabbedPane.setSelectedIndex(1);
+						limparCampos();
+						grupoRadio.clearSelection();
+						lblNovo2.setText("Cliente Novo...");
+						atualizar = 0;
+					} 
+				});
+				btnNovo2.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						limparCampos();
+						grupoRadio.clearSelection();
+						lblNovo2.setText("Cliente Novo...");
+						atualizar = 0;
 					}
-					
-					@Override
-					public void mousePressed(MouseEvent e) {
-						// TODO Auto-generated method stub
-						
-					}
-					
-					@Override
-					public void mouseExited(MouseEvent e) {
-						// TODO Auto-generated method stub
-						
-					}
-					
-					@Override
-					public void mouseEntered(MouseEvent e) {
-						// TODO Auto-generated method stub
-						
-					}
-					
-					@Override
-					public void mouseClicked(MouseEvent e) {
-						if(e.getClickCount() == 2) {
-							int linha = tableCliente.getSelectedRow();
-							String codigoCliente = tableCliente.getValueAt(linha, 0).toString();
-							exibirCliente(Integer.parseInt(codigoCliente));
-							tabbedPane.setSelectedIndex(1);
-						}else {
-							
+				});
+
+				btCalcular.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {	
+						if (atualizar == 0) {
+							System.out.println("aaa");
+							int resp = JOptionPane.showConfirmDialog(null, "Tem certeza que quer Gravar?", "Salvar cliente", JOptionPane.YES_NO_OPTION);	
+							if(resp == 0) {
+								criarCliente("Salvar");
+								atualizarTabela();
+								lblNovo2.setText("");
+							}
+						}else if(atualizar == 1){
+							System.out.println("aaab");
+							int resp = JOptionPane.showConfirmDialog(null, "Tem certeza que quer Atualizar?", "Atualizar cliente", JOptionPane.YES_NO_OPTION);	
+							if(resp == 0) {
+								criarCliente("Editar");
+								atualizarTabela();
+								lblNovo2.setText("");
+							}	
 						}
-							
+						atualizar =  0;
 					}
 				});
 				
-
-				//***A tabela cliente termina aqui
+				btnEditar.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						int linha = tableCliente.getSelectedRow();
+						String a = tableCliente.getValueAt(linha, 0).toString();
+						exibirCliente(Integer.parseInt(a));
+						lblNovo2.setText("Editando Cliente...");
+						tabbedPane.setSelectedIndex(1);	
+						atualizar = 1;
+					
+				}
+			});
+				
+				btnDeletar.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+					int resp = JOptionPane.showConfirmDialog(null, "Tem certeza que quer Execluir?", "Excluir cliente", JOptionPane.YES_NO_OPTION);
+						if(resp == 0) {
+							int linha = tableCliente.getSelectedRow();
+							String a = tableCliente.getValueAt( linha, 0).toString();
+							exibirCliente(Integer.parseInt(a));
+							criarCliente("Excluir");
+							limparCampos();
+							atualizarTabela();
+						}
+					}
+				});
+				
+				btnSair.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						System.exit(0);
+					}
+				});		
+				
 
 	}
 	
@@ -512,7 +489,7 @@ public class FrmCliente extends JFrame {
 		cdAtividade.setSelectedIndex(cliente.getNivelAtividade());
 		txtIdade.setText(String.valueOf(cliente.getIdade()));
 		
-		txtDtNascimento.setText(Data.converterParaPortugues(cliente.getDtNascimento()));
+		txtDtNascimento.setText(cliente.getDtNascimento());
 		
 		
 		if(String.valueOf(cliente.getSexo()).equals("M")){
@@ -544,31 +521,34 @@ public class FrmCliente extends JFrame {
 		lblImcl.setText("...");
 		lblTmbL.setText("...");
 		lblFcmL.setText("...");
-	
-		
+
 	}
 	
 	private void criarCliente(String operacao) {
 		Cliente cliente = new Cliente();
-		
-		cliente.setNome(txtNome.getText());
-		cliente.setPeso(Double.parseDouble(txtPeso.getText()));
-		cliente.setAltura(Double.parseDouble(txtAltura.getText()));
-		//cliente.setIdade(Integer.parseInt(txtIdade.getText()));
-		cliente.setNivelAtividade(cdAtividade.getSelectedIndex());
-		cliente.setLogradouro(txtLogra.getText());
-		cliente.setBairro(txtBairro.getText());
-		cliente.setCidade(txtCidade.getText());
-		cliente.setTelefone(txtTelefone.getText());
-		cliente.setEmail(txtEmail.getText());
-		
+		if(txtNome.getText().equals("")||txtPeso.getText().equals("")||txtAltura.getText().equals("")||txtLogra.getText().equals("")||txtBairro.getText().equals("") 
+			||txtCidade.getText().equals("")||txtTelefone.getText().equals("")||txtEmail.getText().equals("")||txtDtNascimento.getText().equals("")) {
+			JOptionPane.showMessageDialog(FrmCliente.this, "Temine de preenchar as caixas", "Prenenchar as caixas", JOptionPane.PLAIN_MESSAGE);
+		}else {
+
+			cliente.setNome(txtNome.getText());
+			cliente.setPeso(Double.parseDouble(txtPeso.getText()));
+			cliente.setAltura(Double.parseDouble(txtAltura.getText()));
+			//cliente.setIdade(Integer.parseInt(txtIdade.getText()));
+			cliente.setNivelAtividade(cdAtividade.getSelectedIndex());
+			cliente.setLogradouro(txtLogra.getText());
+			cliente.setBairro(txtBairro.getText());
+			cliente.setCidade(txtCidade.getText());
+			cliente.setTelefone(txtTelefone.getText());
+			cliente.setEmail(txtEmail.getText());
+			cliente.setDtNascimento(Data.converterParaAccess(txtDtNascimento.getText()));
+		}
 		ClienteDAO dao = new ClienteDAO(cliente);
 		if(operacao.equals("Salvar")) {
 			if (rdFeminino.isSelected()) {
 				cliente.setSexo('F');
 			} else if (rdMasculino.isSelected()) {
 				cliente.setSexo('M');
-
 			} else {
 				JOptionPane.showMessageDialog(null, "Falta alguma caixa");
 			}
@@ -576,6 +556,7 @@ public class FrmCliente extends JFrame {
 			lblImcl.setText(String.valueOf(cliente.getImc()));
 			lblTmbL.setText(String.valueOf(cliente.getTmb()));
 			lblFcmL.setText(String.valueOf(cliente.getFcm()));
+			
 			dao.salvar();
 		}else if (operacao.equals("Editar")) {
 			int linha = tableCliente.getSelectedRow();
@@ -590,9 +571,70 @@ public class FrmCliente extends JFrame {
 			dao.editar(codigo);
 	
 		}else {
-				cliente.setCodigoCliente(Integer.parseInt(txtCodigoCliente.getText()));
-				dao.excluir();
+			cliente.setCodigoCliente(Integer.parseInt(txtCodigoCliente.getText()));
+			dao.excluir();
 		}	
+		
+	}
+	
+	private void atualizarTabela() {
+		ClienteDAO dao = new ClienteDAO();
+		String[] colunas = {"Codigo","Nome do Cliente", "Email"};
+		String[][] linhas= new String[dao.getClientes().size()][3];
+		
+		for (int i=0; i < dao.getClientes().size(); i++) {
+			linhas[i][0] = String.valueOf(dao.getClientes().get(i).getCodigoCliente());
+			linhas[i][1] = dao.getClientes().get(i).getNome();
+			linhas[i][2] =  dao.getClientes().get(i).getEmail();			
+		};
+		
+		tableCliente = new JTable(linhas, colunas);
+		tableCliente.setDefaultEditor(Object.class, null);
+		
+		tableCliente.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+      				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(e.getClickCount() == 2) {
+					int linha = tableCliente.getSelectedRow();
+					String codigoCliente = tableCliente.getValueAt(linha, 0).toString();
+					exibirCliente(Integer.parseInt(codigoCliente));
+					tabbedPane.setSelectedIndex(1);
+					lblNovo2.setText("Editando Cliente...");
+					atualizar = 1;
+				}else {
+					
+				}
+					
+			}
+		});
+		
+		scrollTabela.setViewportView(tableCliente);
+		
 		
 	}
 }

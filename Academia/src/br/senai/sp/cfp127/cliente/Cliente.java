@@ -9,7 +9,7 @@ import javax.swing.JOptionPane;
 public class Cliente {
 	
 	private String nome;
-	private Date dtNascimento;
+	private String dtNascimento;
 	private int idade;
 	private double peso;
 	private double altura;
@@ -63,12 +63,12 @@ public class Cliente {
 	}
 
 	//** Data de nacimento
-	public Date getDtNascimento() {
+	public String getDtNascimento() {
 	
 		return dtNascimento;
 	}
 	
-	public void setDtNascimento(Date dtNascimento) {
+	public void setDtNascimento(String dtNascimento) {
 		this.dtNascimento = dtNascimento;
 	}
 	
