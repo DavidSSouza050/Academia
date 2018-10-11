@@ -44,7 +44,6 @@ private Cliente cliente;
 			cliente = new Cliente();
 			this.cliente.setCodigoCliente(rs.getInt("codigoCliente"));
 			this.cliente.setNome(rs.getString("nome"));
-			//this.cliente.setIdade(rs.getInt("dataNascimento"));
 			this.cliente.setPeso(rs.getDouble("peso"));
 			this.cliente.setAltura(rs.getDouble("altura"));
 			this.cliente.setSexo(rs.getString("sexo").charAt(0));
@@ -131,7 +130,7 @@ private Cliente cliente;
 		
 			PreparedStatement stm =   Conexao.getConexao().prepareStatement(sql);
 			stm.setString(1, this.cliente.getNome());
-			stm.setString(2, Data.converterParaAccess(this.cliente.getDtNascimento()));
+			stm.setString(2, this.cliente.getDtNascimento());
 			stm.setDouble(3, this.cliente.getPeso());
 			stm.setDouble(4, this.cliente.getAltura());
 			stm.setString(5, String.valueOf(this.cliente.getSexo()));
@@ -161,7 +160,7 @@ private Cliente cliente;
 	public void editar(int codigo) {
 		try {
 
-			String sql ="UPDATE cliente SET nome=?, dataNacimento=?, peso=?,	altura=?, sexo=?, "
+			String sql ="UPDATE cliente SET nome=?, dataNacimento=?, peso=?, altura=?, sexo=?, "
 					+ "nivelAtividade=?, logradouro=?, bairro=?, cidade=?, telefone=?,"
 					+ "email=? WHERE codigoCliente=? ";
 		
