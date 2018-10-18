@@ -401,7 +401,6 @@ public class FrmCliente extends JFrame {
 		btCalcular.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (atualizar == 0) {
-					System.out.println("aaa");
 					int resp = JOptionPane.showConfirmDialog(null, "Tem certeza que quer Gravar esse cliente?", "Salvar cliente",
 							JOptionPane.YES_NO_OPTION);
 					if (resp == 0) {
@@ -410,7 +409,6 @@ public class FrmCliente extends JFrame {
 						lblNovo2.setText("");
 					}
 				} else if (atualizar == 1) {
-					System.out.println("aaab");
 					int resp = JOptionPane.showConfirmDialog(null, "Tem certeza que quer Atualizar esse cliente?",
 							"Atualizar cliente", JOptionPane.YES_NO_OPTION);
 					if (resp == 0) {
@@ -619,10 +617,10 @@ public class FrmCliente extends JFrame {
 		} else if (q.equals("ha")) {
 			txtNome.setEditable(true);
 			cdAtividade.setEnabled(true);
+			txtAltura.setEditable(true);
+			btCalcular.setEnabled(true);
 			rdFeminino.setEnabled(true);
 			rdMasculino.setEnabled(true);
-			btCalcular.setEnabled(true);
-			txtAltura.setEditable(true);
 			txtBairro.setEditable(true);
 			txtCidade.setEditable(true);
 			txtDtNascimento.setEditable(true);
